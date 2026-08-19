@@ -1,0 +1,29 @@
+idea:
+  title: When should an AI ask for clarification?
+  domain: artificial_intelligence
+  hypothesis: 'An AI can be trained or prompted to recognize when it lacks sufficient
+    information to act safely, by estimating its uncertainty and choosing among acting,
+    asking for clarification, refusing, or deferring, depending on the stakes and
+    ambiguity of the task.
+
+    '
+  background:
+    description: 'Can an AI recognize when it lacks enough information to act safely?
+
+      Try to build a benchmark containing three types of tasks: low-stakes tasks where
+      acting immediately is best, ambiguous tasks where clarification is useful, and
+      high-stakes tasks where acting without confirmation is dangerous.
+
+      Train or prompt models to estimate uncertainty and choose among acting, asking,
+      refusing, or deferring.
+
+      '
+  metadata:
+    author: Chenxi Peng
+    source: IdeaHub
+    source_url: https://hypogenic.ai/ideahub/idea/arPIDYuoZtlpAY9KPXzn
+    idea_id: when_should_an_ai_ask_for_clar_20260819_201306_e9ad9dcf
+    created_at: '2026-08-19T20:13:06.797411'
+    status: submitted
+    github_repo_name: when-should-an-ai-ask-for-clarification-f275-claude
+    github_repo_url: https://github.com/Hypogenic-AI/when-should-an-ai-ask-for-clarification-f275-claude
