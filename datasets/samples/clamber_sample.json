@@ -1,0 +1,35 @@
+[
+ {
+  "question": "Give me a list of good coffee shops?",
+  "context": "",
+  "clarifying_question": "What do you personally consider important in a coffee shop? Are you looking for qualities like the variety of coffee, ambiance, customer service, or prices?",
+  "require_clarification": 1,
+  "category": "MC",
+  "subclass": "whom",
+  "predict_ambiguous": 0,
+  "predict_is_ambiguous_response": "{\"Output\": \"False\", \"Confidence\": 4}",
+  "predict_clarifying_question": "Clarifying question: \n- Could you please specify the location or city where you would like the list of good coffee shops?"
+ },
+ {
+  "question": "Give me some Mother's Day gift ideas.",
+  "context": "",
+  "clarifying_question": "What are your mother's interests, hobbies, or something she has been wanting? Is there a particular type of gift, such as experiences or physical items, you're considering?",
+  "require_clarification": 1,
+  "category": "MC",
+  "subclass": "whom",
+  "predict_ambiguous": 0,
+  "predict_is_ambiguous_response": "{\"Output\": \"False\", \"Confidence\": 4}",
+  "predict_clarifying_question": "Clarifying question: \nCould you please specify the budget range or any preferences for the Mothers Day gift ideas?"
+ },
+ {
+  "question": "Help me come up with 3 ideas for a new business and how I can start it",
+  "context": "",
+  "clarifying_question": "What are your areas of interest or expertise, and do you have any preferences for the type of business or industry?",
+  "require_clarification": 1,
+  "category": "MC",
+  "subclass": "what",
+  "predict_ambiguous": 0,
+  "predict_is_ambiguous_response": "{\"Output\": \"False\", \"Confidence\": 4}",
+  "predict_clarifying_question": "Clarifying question: \nWhat specific industry or field are you interested in for the new business ideas?"
+ }
+]

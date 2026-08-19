@@ -1,0 +1,50 @@
+[
+ {
+  "known_facts": "['amused', 'calm', 'loving', 'sleepy']",
+  "known_untrue_facts": "[]",
+  "cannot_ask_facts": "['sensible']",
+  "goal": "tired",
+  "rules": "[['aggressive', 'not elated', 'not supportive', 'not thoughtless'], ['amused', 'not fearless'], ['amused', 'not hurt', 'not light', 'not unpleasant'], ['calm', 'not aggressive', 'not hurt'], ['calm', 'not frightened', 'not silly'], ['calm', 'not hurt', 'not messy', 'not modern'], ['calm', 'not sleepy', 'not versatile'], ['different', 'not dull', 'not light'], ['different', 'not frightened', 'not r",
+  "max_depth": "6",
+  "min_num_rules_needed": "9",
+  "num_constraints": "65",
+  "num_vars": "53",
+  "all_qs": "{'frightened', 'difficult', 'sensible', 'dull', 'loving', 'powerful', 'thoughtless', 'amused', 'fearless', 'silly', 'different', 'hurt', 'modern', 'shiny', 'versatile', 'sleepy', 'elated', 'messy', 'calm', 'unpleasant', 'supportive', 'tired', 'rational', 'aggressive'}",
+  "all_valid_qs": "{'frightened', 'difficult', 'loving', 'thoughtless', 'silly', 'hurt', 'shiny', 'elated', 'calm', 'tired', 'aggressive', 'dull', 'powerful', 'amused', 'fearless', 'different', 'modern', 'versatile', 'sleepy', 'messy', 'unpleasant', 'supportive', 'rational'}",
+  "gt_qs": "['different', 'frightened', 'hurt']",
+  "gt_q_to_true_derivation": "{'frightened': [[['different', 'shiny'], 'tired'], [['sensible', 'unpleasant', 'hurt'], 'shiny'], [['different'], 'hurt'], [['sensible', 'amused', 'dull'], 'sensible'], [['sensible'], 'unpleasant'], [['different'], 'dull'], [['loving', 'calm'], 'sensible'], [['amused'], 'calm'], [['silly', 'frightened'], 'different'], [['rational', 'frightened'], 'loving'], [['amused'], 'frightened'], [['frightene",
+  "gt_q_to_false_derivation": "{'frightened': [[['not sensible'], 'not tired'], [['amused', 'dull', 'not hurt'], 'not sensible'], [['loving', 'calm'], 'dull'], [['not frightened', 'silly'], 'not hurt'], [['amused'], 'calm'], [['calm'], 'loving'], [['loving'], 'not frightened'], [['not frightened'], 'silly']], 'hurt': [[['not sensible'], 'not tired'], [['amused', 'dull', 'not hurt'], 'not sensible'], [['loving', 'calm'], 'dull']"
+ },
+ {
+  "known_facts": "['loving']",
+  "known_untrue_facts": "[]",
+  "cannot_ask_facts": "['comfortable', 'good', 'lonely', 'quaint', 'rude', 'silly', 'sleepy']",
+  "goal": "combative",
+  "rules": "[['attentive', 'not clumsy', 'not outrageous', 'not ugliest'], ['attentive', 'not frantic', 'not nervous', 'not rude'], ['attentive', 'not frantic', 'not spotless'], ['clumsy', 'not comfortable', 'not difficult', 'not tired'], ['clumsy', 'not good', 'not homely', 'not silly'], ['clumsy', 'not loving', 'not outrageous'], ['combative', 'not different', 'not silly', 'not unpleasant'], ['combative', '",
+  "max_depth": "5",
+  "min_num_rules_needed": "7",
+  "num_constraints": "101",
+  "num_vars": "55",
+  "all_qs": "{'precious', 'spotless', 'impatient', 'good', 'difficult', 'nervous', 'loving', 'rude', 'outrageous', 'homely', 'frantic', 'thoughtless', 'comfortable', 'attentive', 'tired', 'silly', 'different', 'shy', 'embarrassed', 'sleepy', 'clumsy', 'lonely', 'unpleasant', 'gorgeous', 'stormy', 'combative', 'quaint'}",
+  "all_valid_qs": "{'precious', 'impatient', 'difficult', 'loving', 'outrageous', 'homely', 'frantic', 'thoughtless', 'shy', 'embarrassed', 'clumsy', 'combative', 'tired', 'spotless', 'nervous', 'attentive', 'different', 'unpleasant', 'gorgeous', 'stormy'}",
+  "gt_qs": "['clumsy', 'frantic', 'outrageous', 'spotless', 'thoughtless', 'tired']",
+  "gt_q_to_true_derivation": "{'thoughtless': [[['spotless', 'frantic', 'homely'], 'combative'], [['outrageous', 'sleepy'], 'homely'], [['frantic'], 'outrageous'], [['spotless'], 'sleepy'], [['tired'], 'frantic'], [['spotless'], 'tired'], [['loving', 'precious', 'spotless'], 'shy'], [['thoughtless'], 'precious'], [['thoughtless'], 'spotless']], 'clumsy': [[['spotless', 'frantic', 'homely'], 'combative'], [['outrageous', 'sleep",
+  "gt_q_to_false_derivation": "{'thoughtless': [[['not silly'], 'not combative'], [['not outrageous'], 'not silly'], [['not thoughtless'], 'not outrageous']], 'clumsy': [[['not silly'], 'not combative'], [['not outrageous'], 'not silly'], [['loving', 'not clumsy'], 'not outrageous']]}"
+ },
+ {
+  "known_facts": "['precious', 'spotless']",
+  "known_untrue_facts": "[]",
+  "cannot_ask_facts": "['attentive', 'clumsy', 'comfortable', 'different', 'frantic', 'good', 'homely', 'lonely', 'quaint', 'rude', 'shy', 'silly', 'sleepy', 'tired']",
+  "goal": "combative",
+  "rules": "[['attentive', 'not clumsy', 'not outrageous', 'not ugliest'], ['attentive', 'not frantic', 'not nervous', 'not rude'], ['attentive', 'not frantic', 'not spotless'], ['clumsy', 'not comfortable', 'not difficult', 'not tired'], ['clumsy', 'not good', 'not homely', 'not silly'], ['clumsy', 'not loving', 'not outrageous'], ['combative', 'not different', 'not silly', 'not unpleasant'], ['combative', '",
+  "max_depth": "4",
+  "min_num_rules_needed": "6",
+  "num_constraints": "101",
+  "num_vars": "55",
+  "all_qs": "{'precious', 'spotless', 'impatient', 'good', 'difficult', 'nervous', 'loving', 'rude', 'outrageous', 'homely', 'frantic', 'thoughtless', 'comfortable', 'attentive', 'tired', 'silly', 'different', 'shy', 'embarrassed', 'sleepy', 'clumsy', 'lonely', 'unpleasant', 'gorgeous', 'stormy', 'combative', 'quaint'}",
+  "all_valid_qs": "{'precious', 'spotless', 'embarrassed', 'impatient', 'difficult', 'nervous', 'loving', 'unpleasant', 'outrageous', 'gorgeous', 'stormy', 'combative', 'thoughtless'}",
+  "gt_qs": "['different', 'loving', 'shy', 'tired']",
+  "gt_q_to_true_derivation": "{'shy': [[['thoughtless', 'nervous'], 'combative'], [['shy', 'tired'], 'nervous'], [['thoughtless'], 'tired'], [['thoughtless'], 'precious'], [['shy'], 'thoughtless'], [['spotless'], 'outrageous']], 'tired': [[['spotless', 'frantic', 'homely'], 'combative'], [['outrageous', 'sleepy'], 'homely'], [['frantic'], 'outrageous'], [['spotless'], 'sleepy'], [['tired'], 'frantic']], 'different': [[['spotle",
+  "gt_q_to_false_derivation": "{'shy': [[['not silly'], 'not combative'], [['not comfortable'], 'not silly'], [['not lonely', 'stormy'], 'not comfortable'], [['not sleepy'], 'not lonely'], [['not shy', 'stormy'], 'not sleepy'], [['precious'], 'stormy']], 'tired': [[['not silly'], 'not combative'], [['not comfortable'], 'not silly'], [['not lonely', 'stormy'], 'not comfortable'], [['not sleepy'], 'not lonely'], [['not shy', 'sto"
+ }
+]

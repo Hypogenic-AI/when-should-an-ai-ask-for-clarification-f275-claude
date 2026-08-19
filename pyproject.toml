@@ -1,0 +1,30 @@
+[project]
+name = "research-workspace"
+version = "0.1.0"
+description = "Research workspace for experiments"
+requires-python = ">=3.10"
+dependencies = [
+    "accelerate>=1.14.0",
+    "arxiv>=4.0.1",
+    "datasets>=5.0.1",
+    "httpx>=0.28.1",
+    "huggingface-hub>=1.28.0",
+    "matplotlib>=3.10.9",
+    "openai>=3.3.1",
+    "pandas>=2.3.3",
+    "peft>=0.20.0",
+    "pypdf>=6.16.1",
+    "requests>=2.34.2",
+    "scikit-learn>=1.7.2",
+    "scipy>=1.15.3",
+    "seaborn>=0.13.2",
+    "statsmodels>=0.14.6",
+    "tenacity>=9.1.4",
+    "torch>=2.13.0",
+    "transformers>=5.15.1",
+    "trl>=1.10.0",
+    "ziglang>=0.16.0",
+]
+
+[tool.uv]
+package = false

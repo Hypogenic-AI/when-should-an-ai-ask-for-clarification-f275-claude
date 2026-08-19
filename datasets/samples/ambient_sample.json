@@ -1,0 +1,29 @@
+[
+ {
+  "id": "126_c",
+  "premise": "I asked the participant if they were a US citizen or a Green Card holder.",
+  "hypothesis": "I asked the participant if they were either a US citizen or a Green Card holder, or neither.",
+  "premise_ambiguous": "True",
+  "hypothesis_ambiguous": "False",
+  "labels": "entailment, neutral",
+  "disambiguations": "[{'premise': 'I asked the participant if they were a US citizen or if they were a Green Card holder.', 'hypothesis': 'I asked the participant if they were either a US citizen or a Green Card holder, or neither.', 'label': 'neutral'}, {'premise': 'I asked the participant if they were either a US citizen or a Green Card holder, or neither.', 'hypothesis': 'I asked the participant if they were either"
+ },
+ {
+  "id": "51107",
+  "premise": "It is not unusual for people to move to a new city for a job.",
+  "hypothesis": "People usually move to a new city for a job.",
+  "premise_ambiguous": "True",
+  "hypothesis_ambiguous": "False",
+  "labels": "entailment, neutral",
+  "disambiguations": "[{'premise': 'It is usual for people to move to a new city for a job.', 'hypothesis': 'People usually move to a new city for a job.', 'label': 'entailment'}, {'premise': 'It is not uncommon for people to move to a new city for a job.', 'hypothesis': 'People usually move to a new city for a job.', 'label': 'neutral'}]"
+ },
+ {
+  "id": "92549",
+  "premise": "The rock band's decision to break up was not taken lightly.",
+  "hypothesis": "The rock band's decision was not taken seriously.",
+  "premise_ambiguous": "False",
+  "hypothesis_ambiguous": "False",
+  "labels": "contradiction",
+  "disambiguations": "[]"
+ }
+]

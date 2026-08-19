@@ -1,0 +1,50 @@
+[
+ {
+  "instance_id": "astropy__astropy-11693",
+  "underspecified": "1.0",
+  "underspecified_notes": "The issue arises when attempting to plot an image using the World Coordinate System (WCS) in Astropy with non-linear distortions. This process fails with a `NoConvergence` error during the `all_world2pix` transformation, indicating that the iterative method used to convert world coordinates to pixel coordinates does not converge to a solution. \n\nCurrently, to get a good-looking plot, the user is hacking the repository to add `quiet=True` as a parameter to the call `self.all_world2pix(*world_arrays, 0)`. The user wants a way to obtain that plot without having to hack the library code.\n\nFrom the user\u2019s explanation and expected behavior, it is not explicitly clear what they want, as they just say they want a better way to get the plot without hacking the library code. An experienced developer might consider using the hack since it works, but since the user mentioned not using the hack and did not specify what exactly to use, the error and user explanation suggest that the fix should be applied in `all_world2pix` to get rid of the error without using the hack.",
+  "false_negative": "3.0",
+  "false_negative_notes": "The test patch, checks that NoConvergence error is raised and that UserWarning is raised, however, the issue doesn't indicate any expectation for such. The issue described that the expected behavior is a reasonable plot, however, it didn't specify that an error should be raised when a high accuracy is set or that a warning should be raised when it's a low accuracy. As such, the test patch is out of scope of the issue description, a test that just checks if a reasonable solution is provided could have been within scope.",
+  "other_major_issues": "0.0",
+  "other_notes": "",
+  "difficulty": "15 min - 1 hour",
+  "underspecified_decided_by": "17",
+  "false_negative_decided_by": "72",
+  "other_major_issues_decided_by": "17",
+  "difficulty_decided_by": "[17, 72, 69]",
+  "difficulty_ensemble_decision_procedure": "majority",
+  "filter_out": "True"
+ },
+ {
+  "instance_id": "astropy__astropy-12544",
+  "underspecified": "0.0",
+  "underspecified_notes": "The problem described in the issue is that when `astropy.table.Table.read()` encounters values such as `NaN`, it automatically converts the table into a `MaskedTable` and the affected columns into `MaskedColumn`, which might break downstream tasks. The solution suggested is to have a parameter `mask` in `Table.read()`, which, when set to `False`, would not do the masking and return the table as-is.",
+  "false_negative": "3.0",
+  "false_negative_notes": "The parameter introduced is `mask_invalid`, which is not what the issue asked for. Because the issue description explicitly mentioned it, any reasonable solution would add the parameter `mask` and so, would fail these tests.\n\nAlso, the tests only test this feature for the FITS file, which is not what the issue specified.",
+  "other_major_issues": "0.0",
+  "other_notes": "",
+  "difficulty": "1-4 hours",
+  "underspecified_decided_by": "65",
+  "false_negative_decided_by": "65",
+  "other_major_issues_decided_by": "65",
+  "difficulty_decided_by": "[65, 71]",
+  "difficulty_ensemble_decision_procedure": "majority",
+  "filter_out": "True"
+ },
+ {
+  "instance_id": "astropy__astropy-12825",
+  "underspecified": "1.0",
+  "underspecified_notes": "The issue is clear and steps to replicate it are provided. It could be a bit more clearer if the issue raiser specified \"fails to aggregate columns where operation does not make sense.\" part because it is unclear what \"fails\" mean, should it raise an error? Should it return a zero value? It leaves some blanks to be filled by the developer. The solution is clear however, the grouping should not fail whenever the data has some unsupported data type columns.",
+  "false_negative": "2.0",
+  "false_negative_notes": "The tests cover all solutions for both the supported type column cases and mixin type cases. However there is a tiny change on line 217 \"  self.parent_table = parent_column.info.parent_table\" which makes the par_col variable change thus makes the warning message change. In that case other solutions that don't do this specific change won't match with the expected warning string during assertion.",
+  "other_major_issues": "0.0",
+  "other_notes": "",
+  "difficulty": "1-4 hours",
+  "underspecified_decided_by": "91",
+  "false_negative_decided_by": "91",
+  "other_major_issues_decided_by": "55",
+  "difficulty_decided_by": "[12]",
+  "difficulty_ensemble_decision_procedure": "median",
+  "filter_out": "True"
+ }
+]

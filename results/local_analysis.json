@@ -1,0 +1,211 @@
+{
+  "router": {
+    "acc": 0.4875,
+    "cuts": [
+      -1.0,
+      55.0,
+      80.0
+    ],
+    "labels": [
+      "DEFER",
+      "REFUSE",
+      "ASK",
+      "ACT"
+    ]
+  },
+  "binary_router": {
+    "acc": 0.75,
+    "cut": 80.0,
+    "hi_is_act": true
+  },
+  "base_tag": "qwen3-8b_base",
+  "sft_tag": null,
+  "test": {
+    "prompted: typed ontology (R2)": {
+      "n": 480,
+      "accuracy": 0.5770833333333333,
+      "macro_f1": 0.5765804217832677,
+      "ask_f1": 0.4885496183206107,
+      "ask_precision": 0.512,
+      "ask_recall": 0.46715328467153283,
+      "overcommitment": 0.16809116809116809,
+      "contrast_compliance": 0.6046511627906976,
+      "typed_deferral_acc": 0.6815068493150684,
+      "deferral_detection": 0.7708333333333334,
+      "unparsed": 0,
+      "accuracy_ci": [
+        0.5333333333333333,
+        0.6229166666666667
+      ],
+      "macro_f1_ci": [
+        0.5303652516562262,
+        0.6198185773332309
+      ]
+    },
+    "prompted: scalar confidence (R3)": {
+      "n": 480,
+      "accuracy": 0.44166666666666665,
+      "macro_f1": 0.3584320345701907,
+      "ask_f1": 0.3097345132743363,
+      "ask_precision": 0.39325842696629215,
+      "ask_recall": 0.25547445255474455,
+      "overcommitment": 0.17094017094017094,
+      "contrast_compliance": 0.5891472868217055,
+      "typed_deferral_acc": 0.46735395189003437,
+      "deferral_detection": 0.7645833333333333,
+      "unparsed": 0,
+      "accuracy_ci": [
+        0.3978645833333333,
+        0.48541666666666666
+      ],
+      "macro_f1_ci": [
+        0.32465497958018474,
+        0.3924452866205564
+      ]
+    },
+    "prompted: recognition + rule (R4)": {
+      "n": 480,
+      "accuracy": 0.54375,
+      "macro_f1": 0.5388448081443794,
+      "ask_f1": 0.5302593659942364,
+      "ask_precision": 0.4380952380952381,
+      "ask_recall": 0.6715328467153284,
+      "overcommitment": 0.13105413105413105,
+      "contrast_compliance": 0.5968992248062015,
+      "typed_deferral_acc": 0.6032786885245902,
+      "deferral_detection": 0.7958333333333333,
+      "unparsed": 0,
+      "accuracy_ci": [
+        0.5,
+        0.5895833333333333
+      ],
+      "macro_f1_ci": [
+        0.4921631210454505,
+        0.5865952241229924
+      ]
+    },
+    "frozen-representation linear probe": {
+      "n": 480,
+      "accuracy": 0.7791666666666667,
+      "macro_f1": 0.7731609864553802,
+      "ask_f1": 0.7657992565055761,
+      "ask_precision": 0.7803030303030303,
+      "ask_recall": 0.7518248175182481,
+      "overcommitment": 0.008547008547008548,
+      "contrast_compliance": 0.5038759689922481,
+      "typed_deferral_acc": 0.8879310344827587,
+      "deferral_detection": 0.8604166666666667,
+      "unparsed": 0,
+      "accuracy_ci": [
+        0.7416666666666667,
+        0.8166666666666667
+      ],
+      "macro_f1_ci": [
+        0.735017158835841,
+        0.808263514607825
+      ]
+    }
+  },
+  "test_tests_vs_prompted_typed": {
+    "frozen-representation linear probe": {
+      "b": 150,
+      "c": 53,
+      "p": 6.3349794131648196e-12,
+      "odds": 2.830188679245283
+    }
+  },
+  "transfer": {
+    "prompted: typed ontology (R2)": {
+      "n": 200,
+      "accuracy": 0.535,
+      "macro_f1": 0.2494419642857143,
+      "ask_f1": 0.35714285714285715,
+      "ask_precision": 0.625,
+      "ask_recall": 0.25,
+      "overcommitment": 0.74,
+      "contrast_compliance": 0.82,
+      "typed_deferral_acc": 0.9615384615384616,
+      "deferral_detection": 0.54,
+      "unparsed": 0,
+      "accuracy_ci": [
+        0.465,
+        0.605
+      ],
+      "macro_f1_ci": [
+        0.2126941499696717,
+        0.28354533545393074
+      ]
+    },
+    "prompted: scalar confidence (R3)": {
+      "n": 200,
+      "accuracy": 0.565,
+      "macro_f1": 0.28917971298108286,
+      "ask_f1": 0.5357142857142857,
+      "ask_precision": 0.6617647058823529,
+      "ask_recall": 0.45,
+      "overcommitment": 0.51,
+      "contrast_compliance": 0.68,
+      "typed_deferral_acc": 0.9183673469387755,
+      "deferral_detection": 0.585,
+      "unparsed": 0,
+      "accuracy_ci": [
+        0.495,
+        0.635
+      ],
+      "macro_f1_ci": [
+        0.25391741709548316,
+        0.3224593644152362
+      ]
+    },
+    "prompted: recognition + rule (R4)": {
+      "n": 200,
+      "accuracy": 0.59,
+      "macro_f1": 0.27617643847581613,
+      "ask_f1": 0.4225352112676056,
+      "ask_precision": 0.7142857142857143,
+      "ask_recall": 0.3,
+      "overcommitment": 0.7,
+      "contrast_compliance": 0.88,
+      "typed_deferral_acc": 1.0,
+      "deferral_detection": 0.59,
+      "unparsed": 0,
+      "accuracy_ci": [
+        0.52,
+        0.655
+      ],
+      "macro_f1_ci": [
+        0.240041928721174,
+        0.3110572578657685
+      ]
+    },
+    "frozen-representation linear probe": {
+      "n": 200,
+      "accuracy": 0.465,
+      "macro_f1": 0.21844731868651074,
+      "ask_f1": 0.27941176470588236,
+      "ask_precision": 0.5277777777777778,
+      "ask_recall": 0.19,
+      "overcommitment": 0.75,
+      "contrast_compliance": 0.74,
+      "typed_deferral_acc": 0.76,
+      "deferral_detection": 0.495,
+      "unparsed": 0,
+      "accuracy_ci": [
+        0.395,
+        0.535
+      ],
+      "macro_f1_ci": [
+        0.18563214165325598,
+        0.25197722481731766
+      ]
+    }
+  },
+  "transfer_tests_vs_prompted_typed": {
+    "frozen-representation linear probe": {
+      "b": 30,
+      "c": 44,
+      "p": 0.13017768031912758,
+      "odds": 0.6818181818181818
+    }
+  }
+}

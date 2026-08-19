@@ -1,0 +1,26 @@
+{
+  "by_model": {
+    "google/gemini-2.5-flash": {
+      "prompt_tokens": 362065,
+      "completion_tokens": 124245,
+      "calls": 1553
+    },
+    "anthropic/claude-sonnet-4.5": {
+      "prompt_tokens": 409000,
+      "completion_tokens": 172081,
+      "calls": 1835
+    },
+    "meta-llama/llama-3.3-70b-instruct": {
+      "prompt_tokens": 412951,
+      "completion_tokens": 273792,
+      "calls": 2106
+    },
+    "openai/gpt-5": {
+      "prompt_tokens": 385250,
+      "completion_tokens": 1553058,
+      "calls": 2174
+    }
+  },
+  "calls": 7668,
+  "cache_hits": 1849
+}

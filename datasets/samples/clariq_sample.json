@@ -1,0 +1,35 @@
+[
+ {
+  "topic_id": "1",
+  "initial_request": "Tell me about Obama family tree.",
+  "topic_desc": "Find information on President Barack Obama\\'s family history, including genealogy, national origins, places and dates of birth, etc.",
+  "clarification_need": "2",
+  "facet_id": "F0001",
+  "facet_desc": "Find the TIME magazine photo essay \"Barack Obama's Family Tree\".",
+  "question_id": "Q00384",
+  "question": "are you interested in seeing barack obamas family",
+  "answer": "yes am interested in obamas family"
+ },
+ {
+  "topic_id": "1",
+  "initial_request": "Tell me about Obama family tree.",
+  "topic_desc": "Find information on President Barack Obama\\'s family history, including genealogy, national origins, places and dates of birth, etc.",
+  "clarification_need": "2",
+  "facet_id": "F0001",
+  "facet_desc": "Find the TIME magazine photo essay \"Barack Obama's Family Tree\".",
+  "question_id": "Q03442",
+  "question": "would you like to know barack obamas geneology",
+  "answer": "yes i want to know who made up his family"
+ },
+ {
+  "topic_id": "1",
+  "initial_request": "Tell me about Obama family tree.",
+  "topic_desc": "Find information on President Barack Obama\\'s family history, including genealogy, national origins, places and dates of birth, etc.",
+  "clarification_need": "2",
+  "facet_id": "F0001",
+  "facet_desc": "Find the TIME magazine photo essay \"Barack Obama's Family Tree\".",
+  "question_id": "Q03402",
+  "question": "would you like to know about obamas ancestors",
+  "answer": "yes this is what am looking for"
+ }
+]

@@ -1,0 +1,3 @@
+# PDFs are large; keep the catalog, not the binaries.
+*.pdf
+pages/

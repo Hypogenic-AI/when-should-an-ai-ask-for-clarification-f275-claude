@@ -1,0 +1,26 @@
+[
+ {
+  "header": "{'task_id': 'task1_missing_goal', 'source_dataset': 'HumanEvalComm', 'fuzzy_type': 'Missing Goal', 'difficulty': 'medium', 'domain': 'general'}",
+  "original": "{'description': '', 'function_signature': 'function_signature_not_found', 'test_cases': []}",
+  "fuzzy_version": "{'instruction': 'Create a function that processes data and returns a result.', 'ambiguity_details': {'missing_goal': ['performance', 'boundary conditions'], 'missing_premises': [], 'ambiguous_terms': []}, 'injection_quality': {'clarity_score': 0.2, 'recoverability': True}}",
+  "evaluation_criteria": "{'key_intent_set': [{'description': 'What type of data should the function process?', 'dimension': 'Why'}, {'description': 'What is the expected result or output of the function?', 'dimension': 'Why'}], 'ground_truth_missing_premises': [{'description': \"The function should be named 'has_close_elements'.\", 'dimension': 'What'}, {'description': 'The function should take a list of floats and a float ",
+  "ground_truth_solution": "",
+  "original_prompt_source": "from typing import List\n\n\ndef has_close_elements(numbers: List[float], threshold: float) -> bool:\n    \"\"\" Check if in given list of numbers, are any two numbers closer to each other than\n    given threshold.\n    >>> has_close_elements([1.0, 2.0, 3.0], 0.5)\n    False\n    >>> has_close_elements([1.0, 2.8, 3.0, 4.0, 5.0, 2.0], 0.3)\n    True\n    \"\"\"\n"
+ },
+ {
+  "header": "{'task_id': 'task1_missing_premises', 'source_dataset': 'HumanEvalComm', 'fuzzy_type': 'Missing Premises', 'difficulty': 'hard', 'domain': 'general'}",
+  "original": "{'description': '', 'function_signature': 'function_signature_not_found', 'test_cases': []}",
+  "fuzzy_version": "{'instruction': 'Create a function that takes input and outputs a result.', 'ambiguity_details': {'missing_goal': [], 'missing_premises': ['Function signature details', 'Input/output format'], 'ambiguous_terms': []}, 'injection_quality': {'clarity_score': 0.3, 'recoverability': True}}",
+  "evaluation_criteria": "{'key_intent_set': [{'description': 'What is the specific purpose of the function in terms of the relationship between the input elements?', 'dimension': 'Why'}, {'description': 'What should the function return if the input list is empty or contains only one element?', 'dimension': 'Why'}], 'ground_truth_missing_premises': [{'description': 'The function should take a list of floats and a float thr",
+  "ground_truth_solution": "",
+  "original_prompt_source": "from typing import List\n\n\ndef has_close_elements(numbers: List[float], threshold: float) -> bool:\n    \"\"\" Check if in given list of numbers, are any two numbers closer to each other than\n    given threshold.\n    >>> has_close_elements([1.0, 2.0, 3.0], 0.5)\n    False\n    >>> has_close_elements([1.0, 2.8, 3.0, 4.0, 5.0, 2.0], 0.3)\n    True\n    \"\"\"\n"
+ },
+ {
+  "header": "{'task_id': 'task1_ambiguous_terms', 'source_dataset': 'HumanEvalComm', 'fuzzy_type': 'Ambiguous Terms', 'difficulty': 'easy', 'domain': 'general'}",
+  "original": "{'description': '', 'function_signature': 'function_signature_not_found', 'test_cases': []}",
+  "fuzzy_version": "{'instruction': 'Create a function that takes an input and returns a result', 'ambiguity_details': {'missing_goal': [], 'missing_premises': [], 'ambiguous_terms': ['function signature', 'generate']}, 'injection_quality': {'clarity_score': 0.6000000000000001, 'recoverability': True}}",
+  "evaluation_criteria": "{'key_intent_set': [{'description': 'What type of input should the function accept?', 'dimension': 'Why'}, {'description': 'What specific condition should the function check for in the input?', 'dimension': 'Why'}], 'ground_truth_missing_premises': [{'description': 'The function should accept a list of floats and a float threshold as inputs.', 'dimension': 'What'}, {'description': 'The function sh",
+  "ground_truth_solution": "",
+  "original_prompt_source": "from typing import List\n\n\ndef has_close_elements(numbers: List[float], threshold: float) -> bool:\n    \"\"\" Check if in given list of numbers, are any two numbers closer to each other than\n    given threshold.\n    >>> has_close_elements([1.0, 2.0, 3.0], 0.5)\n    False\n    >>> has_close_elements([1.0, 2.8, 3.0, 4.0, 5.0, 2.0], 0.3)\n    True\n    \"\"\"\n"
+ }
+]

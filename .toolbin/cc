@@ -1,0 +1,18 @@
+#!/bin/bash
+# Minimal C compiler shim.  Triton (used by torch's native kernels) requires a working `cc`
+# and this container ships no system compiler; `zig cc` is a drop-in clang frontend available
+# as a pure-Python wheel, so it can live inside the isolated venv.
+#
+# zig's lld does not resolve Triton's `-l:libcuda.so.1` against the system driver path, so the
+# wrapper rewrites that flag to the absolute path of the installed driver library.
+WS="$(cd "$(dirname "$0")/.." && pwd)"
+exec "$WS/.venv/bin/python" - "$@" <<'PY'
+import os, sys, ziglang
+args = []
+for a in sys.argv[1:]:
+    if a in ("-l:libcuda.so.1", "-lcuda"):
+        args.append("/usr/lib/x86_64-linux-gnu/libcuda.so.1")
+    else:
+        args.append(a)
+os.execv(os.path.join(os.path.dirname(ziglang.__file__), "zig"), ["zig", "cc"] + args)
+PY

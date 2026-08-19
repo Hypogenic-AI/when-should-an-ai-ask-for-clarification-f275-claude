@@ -1,0 +1,93 @@
+{
+ "ambient": {
+  "splits": {
+   "validation": 100,
+   "test": 1545
+  },
+  "columns": [
+   "id",
+   "premise",
+   "hypothesis",
+   "premise_ambiguous",
+   "hypothesis_ambiguous",
+   "labels",
+   "disambiguations"
+  ]
+ },
+ "ambigqa_light": {
+  "splits": {
+   "train": 10036,
+   "validation": 2002
+  },
+  "columns": [
+   "id",
+   "question",
+   "annotations"
+  ]
+ },
+ "coconot_contrast": {
+  "splits": {
+   "test": 379
+  },
+  "columns": [
+   "id",
+   "category",
+   "subcategory",
+   "prompt",
+   "response"
+  ]
+ },
+ "coconot_original": {
+  "splits": {
+   "train": 11477,
+   "test": 1001
+  },
+  "columns": [
+   "id",
+   "category",
+   "subcategory",
+   "prompt",
+   "response"
+  ]
+ },
+ "questbench": {
+  "splits": {
+   "Logic-Q_test": 1150,
+   "Planning-Q_test": 7500,
+   "GSME-Q_test": 6591,
+   "GSM-Q_test": 23642
+  },
+  "columns": [
+   "known_facts",
+   "known_untrue_facts",
+   "cannot_ask_facts",
+   "goal",
+   "rules",
+   "max_depth",
+   "min_num_rules_needed",
+   "num_constraints",
+   "num_vars",
+   "all_qs",
+   "all_valid_qs",
+   "gt_qs",
+   "gt_q_to_true_derivation",
+   "gt_q_to_false_derivation"
+  ]
+ },
+ "clamber": {
+  "splits": {
+   "all": 3202
+  },
+  "columns": [
+   "question",
+   "context",
+   "clarifying_question",
+   "require_clarification",
+   "category",
+   "subclass",
+   "predict_ambiguous",
+   "predict_is_ambiguous_response",
+   "predict_clarifying_question"
+  ]
+ }
+}

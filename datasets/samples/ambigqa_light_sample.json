@@ -1,0 +1,17 @@
+[
+ {
+  "id": "-4469503464110108318",
+  "question": "When did the simpsons first air on television?",
+  "annotations": "{'type': ['multipleQAs'], 'answer': [[]], 'qaPairs': [{'question': ['When did the Simpsons first air on television as an animated short on the Tracey Ullman Show?', 'When did the Simpsons first air as a half-hour prime time show?'], 'answer': [['April 19, 1987'], ['December 17, 1989']]}]}"
+ },
+ {
+  "id": "4790842463458965203",
+  "question": "Who played george washington in the john adams series?",
+  "annotations": "{'type': ['singleAnswer'], 'answer': [['David Morse']], 'qaPairs': [{'question': [], 'answer': []}]}"
+ },
+ {
+  "id": "-6631915997977101143",
+  "question": "What is the legal age of marriage in usa?",
+  "annotations": "{'type': ['multipleQAs'], 'answer': [[]], 'qaPairs': [{'question': ['What is the legal age of marriage, without parental consent or other authorization, in all but two states in the usa?', 'What is the legal age of marriage, without parental consent or other authorization, in Nebraska?', 'What is the legal age of marriage, without parental consent or other authorization, in Mississippi?', 'What is"
+ }
+]
