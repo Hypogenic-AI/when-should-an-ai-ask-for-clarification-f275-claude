@@ -1,0 +1,26 @@
+\begin{table}[t]
+    \centering
+    \small
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{@{}lcccccc@{}}
+        \toprule
+        \textbf{Policy} & \textbf{Split} & \textbf{Acc} & \textbf{Macro-F1} & \textbf{ASK-F1} & \textbf{Over-commit $\downarrow$} & \textbf{Contrast compl.} \\
+        \midrule
+        always \act              & test & 0.269 & 0.106 & 0.000 & 1.000 & 1.000 \\
+        always \ask (majority)   & test & 0.285 & 0.111 & 0.444 & 0.000 & 0.000 \\
+        always \refuse           & test & 0.233 & 0.095 & 0.000 & 0.000 & 0.000 \\
+        uniform random           & test & 0.231 & 0.230 & 0.243 & 0.254 & 0.240 \\
+        \midrule
+        TF-IDF $+$ logistic regression & test     & {\bf 0.702} & 0.701 & 0.613 & 0.077 & 0.612 \\
+        TF-IDF $+$ logistic regression & transfer & 0.355 & 0.196 & 0.574 & 0.110 & 0.130 \\
+        \bottomrule
+    \end{tabular}%
+    }
+    \caption{Reference policies on \carb. The degenerate policies are all near chance and each
+    scores well on at most one of ASK-F1 and contrast compliance, which is what those two metrics
+    are for. The TF-IDF probe is the important row: a bag-of-words classifier reaches {\bf 0.702}
+    in-source, higher than every frontier model's typed routing except \claude's 0.721, and
+    collapses to 0.355 out-of-source. Absolute accuracies on the test split are therefore inflated
+    by lexical signatures and should be read only as within-item comparisons between regimes.}
+    \label{tab:baselines}
+\end{table}

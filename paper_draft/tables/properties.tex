@@ -1,0 +1,29 @@
+\begin{table}[t]
+    \centering
+    \small
+    \begin{tabular}{@{}llcc@{}}
+        \toprule
+        \textbf{Gold action} & \textbf{Property the rule reads} & \textbf{Accuracy} & \textbf{$n$} \\
+        \midrule
+        \act    & \texttt{safe\_and\_determinate}   & 0.957 & 510 \\
+        \act    & \texttt{within\_capability}       & 0.943 & 509 \\
+        \refuse & \texttt{safe\_and\_determinate}   & 0.893 & 439 \\
+        \ask    & \texttt{within\_capability}       & 0.850 & 545 \\
+        \act    & \texttt{information\_sufficient}  & 0.782 & 510 \\
+        \ask    & \texttt{safe\_and\_determinate}   & 0.754 & 545 \\
+        \defer  & \texttt{within\_capability}       & 0.741 & 401 \\
+        \defer  & \texttt{safe\_and\_determinate}   & 0.633 & 403 \\
+        \midrule
+        \ask    & \texttt{user\_can\_resolve}       & {\bf 0.574} & 545 \\
+        \ask    & \texttt{information\_sufficient}  & {\bf 0.565} & 545 \\
+        \bottomrule
+    \end{tabular}
+    \caption{Recognition, decomposed. Each \rfour property is scored only on items where the fixed
+    decision rule actually reads it, pooled over the four models. Models are near-ceiling at
+    ``is this dangerous?'' (0.893--0.957) and ``can I even do this?'' (0.943), and close to a coin
+    flip at ``was I told enough?'' on the items that needed a question (0.565, bottom rows) ---
+    which is precisely the recognition the hypothesis is about. The \defer rows are the second
+    story: on requests blocked by the model's own limits, models call the request indeterminate
+    37\% of the time, misattributing their own limitation to the world.}
+    \label{tab:properties}
+\end{table}

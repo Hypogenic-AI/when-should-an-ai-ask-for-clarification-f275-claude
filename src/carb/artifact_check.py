@@ -78,9 +78,12 @@ def main() -> None:
     clf = LogisticRegression(max_iter=2000, C=2.0, random_state=SEED).fit(X, y)
 
     out = {}
+    tfidf_preds = {}
     for name, split in (("test", test), ("transfer", transfer)):
         preds = list(clf.predict(vec.transform([i["prompt"] for i in split])))
         golds = [i["gold_action"] for i in split]
+        # keep the predictions so the decision-theoretic analysis can price this baseline too
+        tfidf_preds[name] = {"item_id": [i["item_id"] for i in split], "pred": preds}
         out[f"tfidf_{name}"] = all_metrics(golds, preds)
         print(f"\nTF-IDF logistic regression on {name}: acc={out[f'tfidf_{name}']['accuracy']:.3f} "
               f"macroF1={out[f'tfidf_{name}']['macro_f1']:.3f}")
@@ -104,6 +107,7 @@ def main() -> None:
               f"askF1={m['ask_f1']:.3f} overcommit={m['overcommitment']:.3f} "
               f"contrast={m['contrast_compliance']:.3f}")
 
+    (ROOT / "results" / "tfidf_preds.json").write_text(json.dumps(tfidf_preds))
     (ROOT / "results" / "artifact_check.json").write_text(json.dumps(out, indent=2))
     print("\nWrote results/artifact_check.json")
 

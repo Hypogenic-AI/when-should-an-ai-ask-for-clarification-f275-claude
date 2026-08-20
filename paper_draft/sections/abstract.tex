@@ -1,0 +1,19 @@
+An assistant that cannot tell an under-specified request from a well-specified one will answer
+both, and one of those answers is a guess dressed as an answer. We ask whether a model can
+recognise that it lacks the information to act safely, and choose among \emph{acting},
+\emph{asking}, \emph{refusing}, and \emph{deferring} according to the ambiguity and the stakes.
+We build \carb, an 840-item four-way benchmark whose gold labels are inherited from the source
+annotations of \coconot, \clamber, and \inthree rather than invented, and run five elicitation
+regimes over identical items on five models.
+Three results follow. First, \emph{structure beats confidence}: surfacing a typed action ontology
+reaches 0.60--0.72 four-way accuracy against 0.23 uniform-random, and beats an
+optimally-routed verbalised confidence by 0.16--0.28 on every model (all $p_{\text{Holm}}<10^{-8}$);
+the scalar separates act from not-act (AUROC 0.79--0.87) but is at chance at separating \emph{why}
+not (\defer \versus \refuse AUROC 0.44--0.56). Second, the failure is specific: models judge
+``is this safe?'' at 0.89 and ``can I do this?'' at 0.94, but ``was I told enough?'' at 0.57.
+Third, announcing high stakes moves the decision criterion ($\Delta c = -0.44$, $p<0.001$) without
+improving discrimination ($\Delta d' = -0.11$, $p = 0.53$), and degrades it outright under a plain
+ask-affordance. LoRA fine-tuning an open 4B model reaches 0.794 in-distribution but 0.470 out-of-source, where a
+frozen probe on the untrained model already reaches 0.779. Once errors are priced, every prompted
+frontier policy is worth less than always asking once a wrong action costs 5--10$\times$ a needless
+refusal.

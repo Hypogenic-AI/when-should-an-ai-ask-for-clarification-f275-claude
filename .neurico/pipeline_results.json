@@ -1,25 +1,14 @@
 {
-  "success": false,
+  "success": true,
   "stages": {
     "resource_finder": {
       "success": true,
-      "completion_marker": "/workspaces/when-should-an-ai-ask-for-clarification-f275-claude/.resource_finder_complete",
-      "outputs": {
-        "literature_review": "/workspaces/when-should-an-ai-ask-for-clarification-f275-claude/literature_review.md",
-        "resources_catalog": "/workspaces/when-should-an-ai-ask-for-clarification-f275-claude/resources.md",
-        "papers_dir": "/workspaces/when-should-an-ai-ask-for-clarification-f275-claude/papers",
-        "datasets_dir": "/workspaces/when-should-an-ai-ask-for-clarification-f275-claude/datasets",
-        "code_dir": "/workspaces/when-should-an-ai-ask-for-clarification-f275-claude/code"
-      },
-      "log_file": "/workspaces/when-should-an-ai-ask-for-clarification-f275-claude/logs/resource_finder_claude.log",
-      "transcript_file": "/workspaces/when-should-an-ai-ask-for-clarification-f275-claude/logs/resource_finder_claude_transcript.jsonl",
-      "elapsed_time": 1908.3409450054169,
-      "background_processes_terminated": false
+      "skipped": true
     },
     "experiment_runner": {
-      "success": false,
-      "return_code": 143,
-      "elapsed_time": 3600.5031559467316,
+      "success": true,
+      "return_code": 0,
+      "elapsed_time": 5271.284091949463,
       "log_file": "/workspaces/when-should-an-ai-ask-for-clarification-f275-claude/logs/execution_claude.log",
       "transcript_file": "/workspaces/when-should-an-ai-ask-for-clarification-f275-claude/logs/execution_claude_transcript.jsonl",
       "background_processes_terminated": false

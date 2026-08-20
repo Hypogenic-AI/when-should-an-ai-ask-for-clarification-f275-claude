@@ -29,7 +29,18 @@ def _rows(tag: str, split: str, regime: str) -> list[dict] | None:
     return [json.loads(l) for l in p.read_text().splitlines()]
 
 
+def judged_from(tag: str, split: str, regime: str) -> dict[str, str | None]:
+    """Behaviour labels for the free-text regimes, from the same local judge used for the
+    API models (see src/carb/local_judge.py --what local)."""
+    p = RAW / f"judged__{tag}__{split}__{regime}.jsonl"
+    if not p.exists():
+        return {}
+    return {json.loads(l)["item_id"]: json.loads(l)["behaviour"] for l in p.read_text().splitlines()}
+
+
 def preds_from(tag: str, split: str, regime: str, router: dict | None = None) -> dict[str, str | None]:
+    if regime in ("R0_DIRECT", "R1_AFFORDANCE"):
+        return judged_from(tag, split, regime)
     rows = _rows(tag, split, regime)
     if rows is None:
         return {}
@@ -78,6 +89,8 @@ def main() -> None:
     for split in ("test", "transfer"):
         items = load_items(split)
         conds: dict[str, dict[str, str | None]] = {
+            "behaviour: plain prompt (R0)": preds_from(base_tag, split, "R0_DIRECT"),
+            "behaviour: ask-affordance (R1)": preds_from(base_tag, split, "R1_AFFORDANCE"),
             "prompted: typed ontology (R2)": preds_from(base_tag, split, "R2_TYPED"),
             "prompted: scalar confidence (R3)": preds_from(base_tag, split, "R3_SCALAR", router),
             "prompted: recognition + rule (R4)": preds_from(base_tag, split, "R4_RECOGNITION"),

@@ -134,8 +134,13 @@ def build_in3(n_per_class: int, rng: random.Random) -> list[dict]:
         action = "ASK" if vague else "ACT"
         importance = None
         try:
-            details = ast.literal_eval(r["missing_details"]) if r.get("missing_details") else []
-            imps = [int(d["importance"]) for d in details if "importance" in d]
+            details = r.get("missing_details") or []
+            # IN3 ships this column already parsed as a list in some releases and as a
+            # repr-string in others; handle both (the string branch was the only one
+            # implemented in the first build, which silently dropped every importance rating).
+            if isinstance(details, str):
+                details = ast.literal_eval(details)
+            imps = [int(d["importance"]) for d in details if isinstance(d, dict) and "importance" in d]
             importance = max(imps) if imps else None
         except Exception:
             pass

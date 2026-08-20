@@ -18,9 +18,51 @@
     "cut": 80.0,
     "hi_is_act": true
   },
-  "base_tag": "qwen3-8b_base",
-  "sft_tag": null,
+  "base_tag": "qwen3-4b_base",
+  "sft_tag": "qwen3-4b_sft",
   "test": {
+    "behaviour: plain prompt (R0)": {
+      "n": 480,
+      "accuracy": 0.5,
+      "macro_f1": 0.48128599313514253,
+      "ask_f1": 0.2,
+      "ask_precision": 0.6956521739130435,
+      "ask_recall": 0.11678832116788321,
+      "overcommitment": 0.5811965811965812,
+      "contrast_compliance": 0.9302325581395349,
+      "typed_deferral_acc": 0.8163265306122449,
+      "deferral_detection": 0.55625,
+      "unparsed": 0,
+      "accuracy_ci": [
+        0.45625,
+        0.5458333333333333
+      ],
+      "macro_f1_ci": [
+        0.4368204312221731,
+        0.5247993366846528
+      ]
+    },
+    "behaviour: ask-affordance (R1)": {
+      "n": 480,
+      "accuracy": 0.5729166666666666,
+      "macro_f1": 0.5677274002753113,
+      "ask_f1": 0.38251366120218583,
+      "ask_precision": 0.7608695652173914,
+      "ask_recall": 0.25547445255474455,
+      "overcommitment": 0.4131054131054131,
+      "contrast_compliance": 0.875968992248062,
+      "typed_deferral_acc": 0.7864077669902912,
+      "deferral_detection": 0.6645833333333333,
+      "unparsed": 0,
+      "accuracy_ci": [
+        0.5291666666666667,
+        0.6166666666666667
+      ],
+      "macro_f1_ci": [
+        0.52225653244921,
+        0.610819348237213
+      ]
+    },
     "prompted: typed ontology (R2)": {
       "n": 480,
       "accuracy": 0.5770833333333333,
@@ -35,11 +77,11 @@
       "unparsed": 0,
       "accuracy_ci": [
         0.5333333333333333,
-        0.6229166666666667
+        0.6208333333333333
       ],
       "macro_f1_ci": [
-        0.5303652516562262,
-        0.6198185773332309
+        0.5296829969470477,
+        0.6186276128578666
       ]
     },
     "prompted: scalar confidence (R3)": {
@@ -55,12 +97,12 @@
       "deferral_detection": 0.7645833333333333,
       "unparsed": 0,
       "accuracy_ci": [
-        0.3978645833333333,
-        0.48541666666666666
+        0.39791666666666664,
+        0.4833854166666664
       ],
       "macro_f1_ci": [
-        0.32465497958018474,
-        0.3924452866205564
+        0.3244630948466332,
+        0.3924390677776275
       ]
     },
     "prompted: recognition + rule (R4)": {
@@ -77,11 +119,32 @@
       "unparsed": 0,
       "accuracy_ci": [
         0.5,
-        0.5895833333333333
+        0.5896354166666664
       ],
       "macro_f1_ci": [
-        0.4921631210454505,
-        0.5865952241229924
+        0.4935606112030089,
+        0.5847645566705953
+      ]
+    },
+    "trained: LoRA SFT (R2 prompt)": {
+      "n": 480,
+      "accuracy": 0.79375,
+      "macro_f1": 0.78978979561259,
+      "ask_f1": 0.7984790874524714,
+      "ask_precision": 0.8333333333333334,
+      "ask_recall": 0.7664233576642335,
+      "overcommitment": 0.014245014245014245,
+      "contrast_compliance": 0.5426356589147286,
+      "typed_deferral_acc": 0.8988439306358381,
+      "deferral_detection": 0.8666666666666667,
+      "unparsed": 0,
+      "accuracy_ci": [
+        0.75625,
+        0.8291666666666667
+      ],
+      "macro_f1_ci": [
+        0.75329033377936,
+        0.8233585992868826
       ]
     },
     "frozen-representation linear probe": {
@@ -97,16 +160,22 @@
       "deferral_detection": 0.8604166666666667,
       "unparsed": 0,
       "accuracy_ci": [
-        0.7416666666666667,
+        0.7436979166666667,
         0.8166666666666667
       ],
       "macro_f1_ci": [
-        0.735017158835841,
-        0.808263514607825
+        0.7328792825140203,
+        0.8083300719319853
       ]
     }
   },
   "test_tests_vs_prompted_typed": {
+    "trained: LoRA SFT (R2 prompt)": {
+      "b": 145,
+      "c": 41,
+      "p": 8.038978889732637e-15,
+      "odds": 3.5365853658536586
+    },
     "frozen-representation linear probe": {
       "b": 150,
       "c": 53,
@@ -128,12 +197,12 @@
       "deferral_detection": 0.54,
       "unparsed": 0,
       "accuracy_ci": [
-        0.465,
+        0.46,
         0.605
       ],
       "macro_f1_ci": [
-        0.2126941499696717,
-        0.28354533545393074
+        0.21491267864158414,
+        0.2834537997015287
       ]
     },
     "prompted: scalar confidence (R3)": {
@@ -149,12 +218,12 @@
       "deferral_detection": 0.585,
       "unparsed": 0,
       "accuracy_ci": [
-        0.495,
-        0.635
+        0.5,
+        0.63
       ],
       "macro_f1_ci": [
-        0.25391741709548316,
-        0.3224593644152362
+        0.2534527705879547,
+        0.32419248452987165
       ]
     },
     "prompted: recognition + rule (R4)": {
@@ -171,11 +240,32 @@
       "unparsed": 0,
       "accuracy_ci": [
         0.52,
-        0.655
+        0.6551249999999993
       ],
       "macro_f1_ci": [
         0.240041928721174,
-        0.3110572578657685
+        0.31124151649291526
+      ]
+    },
+    "trained: LoRA SFT (R2 prompt)": {
+      "n": 200,
+      "accuracy": 0.47,
+      "macro_f1": 0.2079442049808429,
+      "ask_f1": 0.21875000000000003,
+      "ask_precision": 0.5,
+      "ask_recall": 0.14,
+      "overcommitment": 0.81,
+      "contrast_compliance": 0.8,
+      "typed_deferral_acc": 0.7368421052631579,
+      "deferral_detection": 0.495,
+      "unparsed": 0,
+      "accuracy_ci": [
+        0.4,
+        0.54
+      ],
+      "macro_f1_ci": [
+        0.1755328462784838,
+        0.2408202087533017
       ]
     },
     "frozen-representation linear probe": {
@@ -191,16 +281,22 @@
       "deferral_detection": 0.495,
       "unparsed": 0,
       "accuracy_ci": [
-        0.395,
+        0.39,
         0.535
       ],
       "macro_f1_ci": [
-        0.18563214165325598,
-        0.25197722481731766
+        0.18504828178273708,
+        0.25238895807975764
       ]
     }
   },
   "transfer_tests_vs_prompted_typed": {
+    "trained: LoRA SFT (R2 prompt)": {
+      "b": 22,
+      "c": 35,
+      "p": 0.11116111910399346,
+      "odds": 0.6285714285714286
+    },
     "frozen-representation linear probe": {
       "b": 30,
       "c": 44,

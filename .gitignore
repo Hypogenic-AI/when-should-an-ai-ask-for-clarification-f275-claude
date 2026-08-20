@@ -344,3 +344,8 @@ Thumbs.db
 .paper_text/
 .hf_cache/
 paper_search_results/
+
+# large local artefacts (regenerable)
+results/llm_cache.sqlite-wal
+results/llm_cache.sqlite-shm
+results/lora_router/

@@ -1,0 +1,82 @@
+\section{Introduction}
+\label{sec:intro}
+
+Ask a deployed assistant to ``book me a flight to Springfield'' and it will book one. There are
+more than thirty Springfields in the United States. The assistant did not lack the capability to
+ask which one; it lacked the judgment that asking was the right move. This is the failure mode we
+study: not that models cannot act, but that they act when they should have said something else.
+
+The right response to a request is not always an answer, and not always a refusal either. A
+request can be under-specified in a way the user can fix in one turn --- then the model should
+{\bf ask}. It can be something that should not be done at all, or that has no determinate answer
+--- then the model should {\bf refuse}. It can be blocked by the model's own missing capability,
+modality, or access --- then the model should {\bf defer} and hand off. Only in the fourth case
+should it {\bf act}. These four are genuinely different: a refusal and a clarifying question have
+opposite effects on a conversation, and a binary benchmark that scores both as ``did not answer''
+cannot tell them apart.
+
+{\bf Why this matters now.} Assistants are being wired to tools that write to databases, send
+messages, and execute code, where acting on a misread intent is not a wrong answer but a wrong
+action. The stated hypothesis in this line of work --- that a model can be trained or prompted to
+recognise when it lacks sufficient information, \emph{by estimating its uncertainty}, and choose
+among the four actions \emph{depending on the stakes} --- is the design assumption behind a large
+amount of deployed scaffolding. It has never been tested as a whole.
+
+{\bf The gap.} Three literatures each test one boundary at a time: clarification research asks
+\emph{ask \versus answer} \citep{zhang2023clarify,zhang2024clamber}, abstention research asks
+\emph{answer \versus decline} \citep{wen2024knowlimits}, and agentic help-seeking asks \emph{escalate
+\versus continue} \citep{trinh2026hilbench}. The few papers that propose the full action space are
+small or leave the hard part open: \citet{unlu2026ssta} runs $n{=}32$ items on a single model
+inside one context window and concedes its numbers are upper bounds; \citet{baan2026bag} reports
+that separating clarify from abstain ``remains challenging''; \citet{su2026knowing} shows models
+recognise ambiguity and answer anyway but does not decompose \emph{which} recognition fails.
+Nobody has run the head-to-head between typed structure and scalar uncertainty at scale, and no
+paper in this corpus reports a clean stakes $\times$ ambiguity factorial.
+
+{\bf Our approach.} We build \carb (Clarification--Action Routing Benchmark), 840 items whose gold
+four-way labels are inherited from the source datasets' own annotations through a fixed, published
+mapping --- no labels are invented. We then hold the items fixed and vary only \emph{how the
+decision is elicited}, across five regimes: the bare request, the request plus a bare
+ask-affordance, a typed action ontology with an ordered decision procedure, a verbalised
+confidence that we route into actions with the best cross-validated router that can be fitted to
+it, and four isolated property judgments that never ask the model what to do
+(\figref{fig:regimes}). Every model sees every item under every regime, so every comparison is
+within-item. We run four frontier models and one open-weight model, and on the open model we add
+LoRA fine-tuning and a frozen linear probe.
+
+{\bf What we find.} Typed prompting reaches 0.60--0.72 four-way accuracy against 0.231
+uniform-random and 0.285 best-single-action, and cuts over-commitment (acting on items that
+should have been withheld) from 45--58\% to 9--25\%. It beats optimally-routed scalar confidence
+by 0.158--0.275 accuracy on every model (Cohen's $h$ 0.32--0.57, all $p_{\text{Holm}} < 10^{-8}$).
+The scalar is not merely mis-routed: it is at chance at separating \defer from \refuse (AUROC
+0.436--0.563), and adding it to a typed policy never helps. Recognition beats behaviour, but the
+property that fails is exactly the one the hypothesis names --- ``is the information sufficient?''
+is 0.565 on items that needed a question, against 0.893 for safety and 0.943 for capability.
+Announcing high stakes shifts the criterion by $-0.44$ ($p<0.001$) with no gain in $d'$, and the
+ambiguity $\times$ stakes interaction is $\beta = +0.010$ ($p = 0.97$). LoRA SFT on an open 4B model
+lifts typed routing from 0.577 to 0.794 in-distribution but scores 0.470 out-of-source, below its
+own untrained prompted baseline, while a frozen probe on the base model already reaches 0.779.
+Priced under an error-cost model, every frontier model's best prompted policy falls below the
+trivial always-ask policy once a wrong action costs 5--10$\times$ a needless refusal.
+
+\begin{itemize}[leftmargin=*,itemsep=1pt,topsep=2pt]
+    \item We release \carb, an 840-item four-way action-routing benchmark with source-inherited
+    labels, a contrast set for over-refusal, an out-of-source transfer split, and a published
+    label-mapping table with sensitivity analyses over three alternative mappings.
+    \item We run the first at-scale head-to-head between typed decision structure and scalar
+    uncertainty on identical items across five models, and show structure wins everywhere by
+    0.13--0.28 accuracy while the scalar is provably at chance on the distinction that matters.
+    \item We decompose the recognition--behaviour gap into four property judgments and localise
+    the failure to \emph{information sufficiency}, and we show the same two patterns reproduce on
+    an open-weight model, so they are not an artefact of one lab's post-training.
+    \item We run a stakes $\times$ ambiguity factorial with a paired bootstrap of the change in
+    signal-detection parameters, and show announced stakes buy indiscriminate caution, not
+    calibrated caution.
+    \item We price every policy under an error-cost model and show that all prompted frontier
+    policies lose to always-asking at moderate error costs --- the deployment-relevant bar that
+    accuracy hides.
+\end{itemize}
+
+\Secref{sec:related} positions the work, \secref{sec:method} describes \carb and the regimes,
+\secref{sec:results} reports the four experiments, and \twosecrefs{sec:discussion}{sec:conclusion}
+discuss limits and implications.

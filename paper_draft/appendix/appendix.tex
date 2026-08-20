@@ -1,0 +1,52 @@
+\section{Additional details}
+\label{app:details}
+
+\subsection{Deviations from the pre-registered plan}
+\label{app:deviations}
+
+We record every deviation.
+(i) The behavioural judge is a local \qwenjudge model rather than a hosted \textsc{GPT-4.1}: the API
+budget was exhausted \emph{after} all raw completions were collected but \emph{before} judging, so
+every hosted judge call returned HTTP 403. The failed attempt is kept in the artefacts for
+provenance.
+(ii) The scalar regime's thresholds are 5-fold cross-validated on the test split rather than fitted
+on dev, because the dev split was never collected before the budget ran out; cross-validation is the
+stricter of the two choices, since no item is predicted by a router that saw it.
+(iii) The LoRA run is 2 epochs at batch 4 $\times$ accumulation 4, not 3 $\times$ 8 $\times$ 2: the
+first attempt was OOM-killed by a co-tenant process on the shared GPU, and validation loss had
+already converged after epoch 0 in both attempts (0.0129 and 0.0095; the completed run's epoch-1
+value is 0.0069).
+(iv) \inthree's \texttt{importance} field failed to parse in the original build --- the column ships
+as a list, not a repr-string --- and was recovered before analysis. Only the previously-null
+importance and derived stakes fields changed; no gold labels moved.
+
+\subsection{Complete-case sensitivity for \gptfive}
+\label{app:completecase}
+
+\gptfive returned empty completions on 16/480 (\rzero), 53/480 (\rone), 14/480 (\rtwo), 10/480
+(\rthree), and 16/480 (\rfour) test items, in every case because reasoning tokens exhausted
+\texttt{max\_tokens}. The headline scoring counts these as errors, which is the deployment-realistic
+reading --- a response the user never sees is not a correct action. Under complete-case scoring the
+one comparison whose sign changes is the affordance effect: $-0.056$ ($p_{\text{Holm}} = 0.008$) in
+the headline becomes $-0.023$ ($n = 424$, $p = 0.15$, uncorrected). No other conclusion in the paper
+is affected.
+
+\subsection{Cost model for the utility analysis}
+\label{app:utility}
+
+Let $K$ be the cost of acting on a request that should have been withheld. A correct action scores
+$+1$; a needless clarifying question on an answerable request scores $-0.3$; a needless refusal
+scores $-1.0$; withholding action for the wrong reason (\eg refusing when deferring was right)
+scores $+0.2$, since the immediate harm is avoided but the interaction is degraded. Utilities are
+means over the 480 test items. The parameter $K$ is the only free quantity, and the qualitative
+conclusion --- that prompted frontier policies cross below always-\ask at moderate $K$ --- holds for
+any assignment in which a needless question is cheaper than a needless refusal.
+
+\subsection{Artefacts}
+\label{app:artefacts}
+
+The release contains the benchmark (840 items plus the 2{,}800-item training pool and the published
+label-mapping table), 9{,}600 raw completions from the main run, 4{,}320 from the stakes run, all
+judge labels from both judges, the LoRA adapter and training curve, every analysis JSON, all ten
+figures, and a claim-checking script that re-verifies 42 quantitative assertions against the JSON
+that produced them.

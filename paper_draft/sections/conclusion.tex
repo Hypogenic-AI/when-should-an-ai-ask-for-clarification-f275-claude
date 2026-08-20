@@ -1,0 +1,31 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+We asked whether a model can tell when it lacks the information to act safely, and choose among
+acting, asking, refusing, and deferring. To answer it we built \carb, an 840-item four-way
+action-routing benchmark with source-inherited labels, and held the items fixed while varying only
+how the decision is elicited, across five regimes and five models.
+
+The answer is a qualified yes with a specific correction. Models can be prompted into a usable
+four-way policy --- 0.598--0.721 accuracy against 0.231 random, with over-commitment falling from
+45--58\% to 9--25\% --- but not by the mechanism the hypothesis names. A verbalised confidence,
+given the best router that can be fitted to it, loses to typed prompting by 0.158--0.275 on every
+model and is at chance at telling apart the three reasons for not acting. The recognition that
+fails is specific: models judge safety at 0.893 and their own capability at 0.943, and information
+sufficiency at 0.565. Announced stakes move the decision criterion and not the discrimination, with
+an ambiguity $\times$ stakes interaction of exactly zero. Fine-tuning an open 4B model reaches 0.794
+in-distribution and 0.470 out of it, where a frozen linear probe on the untrained model already
+reaches 0.779 --- so training mostly supplied a read-out for a signal the representation already
+carried.
+
+{\bf The takeaway:} the bottleneck in deciding whether to ask is structural, not statistical. Give
+a model the action space and it routes; give it a confidence scale and it cannot, because three
+reasons for not acting do not fit on one axis. And until a routing policy beats \emph{always asking}
+at a realistic error cost, the honest baseline for any such system is the trivial one.
+
+{\bf Future work,} in priority order. (1) A stakes manipulation with \emph{experienced}
+consequences --- an executable task where a wrong action actually fails a test --- since announced
+stakes are the weakest link here. (2) Training directly on the ASK-F1 objective rather than the
+typed label, following the transfer result of \citet{trinh2026hilbench}. (3) Probing what the frozen
+representation decodes that does not survive a source change, which is the crux of the negative
+transfer result. (4) Multi-turn: whether to ask is not the same decision as when to stop.

@@ -1,0 +1,23 @@
+\begin{figure}[t]
+    \centering
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{@{}llll@{}}
+        \toprule
+        \textbf{Regime} & \textbf{What the model is shown} & \textbf{What it returns} & \textbf{What it measures} \\
+        \midrule
+        \rzero   & the bare request & free text & default behaviour \\
+        \rone    & request $+$ ``you may answer, ask, decline, or explain a limitation'' & free text & behaviour with an ask-affordance \\
+        \rtwo    & request $+$ four-action ontology $+$ ordered decision procedure & JSON action $+$ reason & typed categorical routing \\
+        \rthree  & request $+$ ``how confident are you that you can safely do this now, 0--100?'' & a number & uncertainty estimation \\
+        \rfour   & request $+$ four yes/no property questions; \emph{never} what to do & four booleans & recognition, isolated from behaviour \\
+        \bottomrule
+    \end{tabular}%
+    }
+    \caption{The five elicitation regimes. The items are identical across regimes and every model
+    sees every item under all five, so all comparisons are within-item. \rthree's number is turned
+    into an action by the best 3-cut $\times$ 24-permutation router fittable to it under 5-fold
+    cross-validation; \rfour's booleans are turned into an action by a fixed rule structurally
+    identical to the procedure \rtwo hands the model. \rtwo \versus \rfour therefore isolates
+    \emph{who applies the rule}, and \rtwo \versus \rthree isolates \emph{structure \versus a number}.}
+    \label{fig:regimes}
+\end{figure}

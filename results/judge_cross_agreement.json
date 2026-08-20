@@ -1,0 +1,37 @@
+{
+  "n": 3768,
+  "raw_agreement": 0.8627919320594479,
+  "cohens_kappa": 0.7812849275852741,
+  "primary_judge": "Qwen/Qwen3-14B",
+  "alt_judge": "Qwen/Qwen3-4B",
+  "primary_label_dist": {
+    "ACT": 2206,
+    "ASK": 517,
+    "REFUSE": 501,
+    "DEFER": 544
+  },
+  "alt_label_dist": {
+    "ACT": 1974,
+    "ASK": 523,
+    "REFUSE": 592,
+    "DEFER": 679
+  },
+  "confusion": {
+    "primary=ACT|alt=ACT": 1921,
+    "primary=ACT|alt=ASK": 97,
+    "primary=ACT|alt=REFUSE": 89,
+    "primary=ACT|alt=DEFER": 99,
+    "primary=ASK|alt=ACT": 36,
+    "primary=ASK|alt=ASK": 408,
+    "primary=ASK|alt=REFUSE": 17,
+    "primary=ASK|alt=DEFER": 56,
+    "primary=REFUSE|alt=ACT": 5,
+    "primary=REFUSE|alt=ASK": 4,
+    "primary=REFUSE|alt=REFUSE": 445,
+    "primary=REFUSE|alt=DEFER": 47,
+    "primary=DEFER|alt=ACT": 12,
+    "primary=DEFER|alt=ASK": 14,
+    "primary=DEFER|alt=REFUSE": 41,
+    "primary=DEFER|alt=DEFER": 477
+  }
+}

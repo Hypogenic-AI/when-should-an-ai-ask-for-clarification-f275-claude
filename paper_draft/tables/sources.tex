@@ -1,0 +1,21 @@
+\begin{table}[t]
+    \centering
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{@{}llp{7.2cm}l@{}}
+        \toprule
+        \textbf{Action} & \textbf{Who is blocked} & \textbf{Meaning} & \textbf{Source annotation} \\
+        \midrule
+        \act    & nobody      & well specified, safe, within capability & \coconot \emph{contrast} set; \clamber \texttt{require\_clarification=0}; \inthree \texttt{vague=false} \\
+        \ask    & the user    & missing or ambiguous, and the user can fix it in one turn & \coconot \emph{incomplete requests}; \clamber \texttt{=1}; \inthree \texttt{vague=true} \\
+        \refuse & nobody can  & should not be done at all --- harmful, or no determinate answer exists & \coconot \emph{safety concerns}, \emph{humanizing}, \emph{indeterminate} \\
+        \defer  & the model   & the model lacks the capability, modality, or access; hand off & \coconot \emph{unsupported requests} \\
+        \bottomrule
+    \end{tabular}%
+    }
+    \caption{The \carb action space and its source-inherited labels. No gold label is authored by
+    us: each item carries its source dataset's own annotation through a fixed mapping table
+    published with the benchmark. The middle column is the operative distinction --- \ask, \refuse,
+    and \defer differ in \emph{who} is blocked, which is exactly what a binary answer/abstain
+    benchmark cannot express.}
+    \label{tab:sources}
+\end{table}

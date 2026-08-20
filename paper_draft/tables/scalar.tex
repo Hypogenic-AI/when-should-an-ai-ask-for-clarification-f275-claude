@@ -1,0 +1,25 @@
+\begin{table}[t]
+    \centering
+    \small
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{@{}lccccc@{}}
+        \toprule
+        \multirow{2}{*}{\textbf{Model}} & \textbf{AUROC} & \textbf{Mean conf.} & \multicolumn{3}{c}{\textbf{AUROC, pairs of withholding types}} \\
+        \cmidrule(lr){4-6}
+         & \act \versus rest & \act/\ask/\refuse/\defer & \ask--\refuse & \ask--\defer & \defer--\refuse \\
+        \midrule
+        \gptfive & 0.814 & 83.3 / 50.8 / 23.6 / 11.0 & 0.721 & 0.780 & {\bf 0.507} \\
+        \claude  & 0.824 & 82.7 / 45.2 / 18.9 / \phantom{0}6.8 & 0.669 & 0.741 & {\bf 0.436} \\
+        \gemini  & 0.788 & 77.8 / 38.3 / \phantom{0}6.6 / 14.0 & 0.663 & 0.622 & {\bf 0.543} \\
+        \llama   & 0.873 & 84.0 / 34.5 / \phantom{0}9.6 / 19.5 & 0.652 & 0.596 & {\bf 0.563} \\
+        \bottomrule
+    \end{tabular}%
+    }
+    \caption{Diagnostics for the verbalised-confidence regime (\rthree). The scalar carries real
+    information about \emph{whether} to act (AUROC 0.79--0.87) and essentially none about
+    \emph{which kind} of withholding is right: \defer \versus \refuse is at chance for every model and
+    below chance for \claude (bold column). The mean-confidence column shows the models do not even
+    order the two consistently --- \gptfive and \claude place \defer below \refuse, \gemini and
+    \llama above it. Three deferral types cannot be recovered from an ordering of one number.}
+    \label{tab:scalar}
+\end{table}

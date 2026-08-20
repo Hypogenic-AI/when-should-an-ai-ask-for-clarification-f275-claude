@@ -1,0 +1,416 @@
+{
+  "models": {
+    "openai/gpt-5": {
+      "R3_SCALAR (4-way, CV router)": {
+        "n": 480,
+        "accuracy": 0.4166666666666667,
+        "macro_f1": 0.3879096913485031,
+        "ask_f1": 0.2972972972972973,
+        "ask_precision": 0.38823529411764707,
+        "ask_recall": 0.24087591240875914,
+        "overcommitment": 0.27635327635327633,
+        "contrast_compliance": 0.7751937984496124,
+        "typed_deferral_acc": 0.4032258064516129,
+        "deferral_detection": 0.7375,
+        "unparsed": 10,
+        "accuracy_ci": [
+          0.3729166666666667,
+          0.46041666666666664
+        ]
+      },
+      "R2_TYPED": {
+        "n": 480,
+        "accuracy": 0.5979166666666667,
+        "macro_f1": 0.6100967569275236,
+        "ask_f1": 0.4899598393574297,
+        "ask_precision": 0.5446428571428571,
+        "ask_recall": 0.44525547445255476,
+        "overcommitment": 0.2535612535612536,
+        "contrast_compliance": 0.7751937984496124,
+        "typed_deferral_acc": 0.748,
+        "deferral_detection": 0.7541666666666667,
+        "unparsed": 14,
+        "accuracy_ci": [
+          0.55625,
+          0.6395833333333333
+        ]
+      },
+      "R4_RECOGNITION": {
+        "n": 480,
+        "accuracy": 0.5520833333333334,
+        "macro_f1": 0.53491519350215,
+        "ask_f1": 0.20571428571428574,
+        "ask_precision": 0.47368421052631576,
+        "ask_recall": 0.13138686131386862,
+        "overcommitment": 0.20512820512820512,
+        "contrast_compliance": 0.7596899224806202,
+        "typed_deferral_acc": 0.630188679245283,
+        "deferral_detection": 0.7854166666666667,
+        "unparsed": 16,
+        "accuracy_ci": [
+          0.5083333333333333,
+          0.5979166666666667
+        ]
+      },
+      "hybrid: scalar gate + typed kind": {
+        "n": 480,
+        "accuracy": 0.56875,
+        "macro_f1": 0.5858923290873965,
+        "ask_f1": 0.47586206896551725,
+        "ask_precision": 0.45098039215686275,
+        "ask_recall": 0.5036496350364964,
+        "overcommitment": 0.21367521367521367,
+        "contrast_compliance": 0.6511627906976745,
+        "typed_deferral_acc": 0.7,
+        "deferral_detection": 0.75,
+        "unparsed": 10,
+        "accuracy_ci": [
+          0.525,
+          0.6104166666666667
+        ],
+        "vs_parent": {
+          "parent": "R2_TYPED",
+          "b": 19,
+          "c": 33,
+          "p": 0.07039422106706228,
+          "odds": 0.5757575757575758,
+          "p_holm": 0.4223653264023737
+        }
+      },
+      "hybrid: scalar gate + recognition kind": {
+        "n": 480,
+        "accuracy": 0.4979166666666667,
+        "macro_f1": 0.49758452369539513,
+        "ask_f1": 0.21052631578947367,
+        "ask_precision": 0.3055555555555556,
+        "ask_recall": 0.16058394160583941,
+        "overcommitment": 0.21367521367521367,
+        "contrast_compliance": 0.6511627906976745,
+        "typed_deferral_acc": 0.5740740740740741,
+        "deferral_detection": 0.75,
+        "unparsed": 10,
+        "accuracy_ci": [
+          0.45416666666666666,
+          0.54375
+        ],
+        "vs_parent": {
+          "parent": "R4_RECOGNITION",
+          "b": 13,
+          "c": 39,
+          "p": 0.0004095414537825804,
+          "odds": 0.3333333333333333,
+          "p_holm": 0.0028667901764780628
+        }
+      }
+    },
+    "anthropic/claude-sonnet-4.5": {
+      "R3_SCALAR (4-way, CV router)": {
+        "n": 480,
+        "accuracy": 0.44583333333333336,
+        "macro_f1": 0.3310954335310118,
+        "ask_f1": 0.14285714285714285,
+        "ask_precision": 0.6470588235294118,
+        "ask_recall": 0.08029197080291971,
+        "overcommitment": 0.2678062678062678,
+        "contrast_compliance": 0.8604651162790697,
+        "typed_deferral_acc": 0.40234375,
+        "deferral_detection": 0.7666666666666667,
+        "unparsed": 1,
+        "accuracy_ci": [
+          0.40208333333333335,
+          0.4895833333333333
+        ]
+      },
+      "R2_TYPED": {
+        "n": 480,
+        "accuracy": 0.7208333333333333,
+        "macro_f1": 0.7113166334490001,
+        "ask_f1": 0.5490196078431372,
+        "ask_precision": 0.835820895522388,
+        "ask_recall": 0.40875912408759124,
+        "overcommitment": 0.11965811965811966,
+        "contrast_compliance": 0.8527131782945736,
+        "typed_deferral_acc": 0.7637540453074434,
+        "deferral_detection": 0.8729166666666667,
+        "unparsed": 0,
+        "accuracy_ci": [
+          0.6791666666666667,
+          0.7625
+        ]
+      },
+      "R4_RECOGNITION": {
+        "n": 480,
+        "accuracy": 0.6083333333333333,
+        "macro_f1": 0.5900945228882704,
+        "ask_f1": 0.31313131313131315,
+        "ask_precision": 0.5081967213114754,
+        "ask_recall": 0.22627737226277372,
+        "overcommitment": 0.15669515669515668,
+        "contrast_compliance": 0.7364341085271318,
+        "typed_deferral_acc": 0.6700680272108843,
+        "deferral_detection": 0.8145833333333333,
+        "unparsed": 3,
+        "accuracy_ci": [
+          0.5645833333333333,
+          0.6520833333333333
+        ]
+      },
+      "hybrid: scalar gate + typed kind": {
+        "n": 480,
+        "accuracy": 0.6541666666666667,
+        "macro_f1": 0.6585522413020567,
+        "ask_f1": 0.5083333333333333,
+        "ask_precision": 0.5922330097087378,
+        "ask_recall": 0.44525547445255476,
+        "overcommitment": 0.1623931623931624,
+        "contrast_compliance": 0.6666666666666666,
+        "typed_deferral_acc": 0.7781569965870307,
+        "deferral_detection": 0.7916666666666666,
+        "unparsed": 1,
+        "accuracy_ci": [
+          0.6125,
+          0.6958333333333333
+        ],
+        "vs_parent": {
+          "parent": "R2_TYPED",
+          "b": 11,
+          "c": 43,
+          "p": 1.401305745618586e-05,
+          "odds": 0.2558139534883721,
+          "p_holm": 0.00011210445964948688
+        }
+      },
+      "hybrid: scalar gate + recognition kind": {
+        "n": 480,
+        "accuracy": 0.5833333333333334,
+        "macro_f1": 0.5781245721734507,
+        "ask_f1": 0.3693693693693694,
+        "ask_precision": 0.4823529411764706,
+        "ask_recall": 0.29927007299270075,
+        "overcommitment": 0.1623931623931624,
+        "contrast_compliance": 0.6666666666666666,
+        "typed_deferral_acc": 0.6621160409556314,
+        "deferral_detection": 0.7916666666666666,
+        "unparsed": 1,
+        "accuracy_ci": [
+          0.5395833333333333,
+          0.6270833333333333
+        ],
+        "vs_parent": {
+          "parent": "R4_RECOGNITION",
+          "b": 23,
+          "c": 35,
+          "p": 0.14800580076020603,
+          "odds": 0.6571428571428571,
+          "p_holm": 0.5920232030408241
+        }
+      }
+    },
+    "google/gemini-2.5-flash": {
+      "R3_SCALAR (4-way, CV router)": {
+        "n": 480,
+        "accuracy": 0.4270833333333333,
+        "macro_f1": 0.29717069304561733,
+        "ask_f1": 0.0,
+        "ask_precision": 0.0,
+        "ask_recall": 0.0,
+        "overcommitment": 0.20797720797720798,
+        "contrast_compliance": 0.7829457364341085,
+        "typed_deferral_acc": 0.37410071942446044,
+        "deferral_detection": 0.7895833333333333,
+        "unparsed": 0,
+        "accuracy_ci": [
+          0.38125,
+          0.47291666666666665
+        ]
+      },
+      "R2_TYPED": {
+        "n": 480,
+        "accuracy": 0.6520833333333333,
+        "macro_f1": 0.6294191899692803,
+        "ask_f1": 0.36363636363636365,
+        "ask_precision": 0.8205128205128205,
+        "ask_recall": 0.23357664233576642,
+        "overcommitment": 0.1282051282051282,
+        "contrast_compliance": 0.7441860465116279,
+        "typed_deferral_acc": 0.7091503267973857,
+        "deferral_detection": 0.8375,
+        "unparsed": 0,
+        "accuracy_ci": [
+          0.6083333333333333,
+          0.6958333333333333
+        ]
+      },
+      "R4_RECOGNITION": {
+        "n": 480,
+        "accuracy": 0.5583333333333333,
+        "macro_f1": 0.5125501254922218,
+        "ask_f1": 0.37438423645320196,
+        "ask_precision": 0.5757575757575758,
+        "ask_recall": 0.2773722627737226,
+        "overcommitment": 0.28205128205128205,
+        "contrast_compliance": 0.8604651162790697,
+        "typed_deferral_acc": 0.623015873015873,
+        "deferral_detection": 0.75625,
+        "unparsed": 0,
+        "accuracy_ci": [
+          0.51453125,
+          0.6020833333333333
+        ]
+      },
+      "hybrid: scalar gate + typed kind": {
+        "n": 480,
+        "accuracy": 0.625,
+        "macro_f1": 0.6089685378643166,
+        "ask_f1": 0.3695652173913044,
+        "ask_precision": 0.723404255319149,
+        "ask_recall": 0.24817518248175183,
+        "overcommitment": 0.20797720797720798,
+        "contrast_compliance": 0.7674418604651163,
+        "typed_deferral_acc": 0.7230215827338129,
+        "deferral_detection": 0.7854166666666667,
+        "unparsed": 0,
+        "accuracy_ci": [
+          0.5833333333333334,
+          0.6666666666666666
+        ],
+        "vs_parent": {
+          "parent": "R2_TYPED",
+          "b": 18,
+          "c": 31,
+          "p": 0.08543313315739454,
+          "odds": 0.5806451612903226,
+          "p_holm": 0.4271656657869727
+        }
+      },
+      "hybrid: scalar gate + recognition kind": {
+        "n": 480,
+        "accuracy": 0.5645833333333333,
+        "macro_f1": 0.5325397434348982,
+        "ask_f1": 0.47011952191235057,
+        "ask_precision": 0.5175438596491229,
+        "ask_recall": 0.4306569343065693,
+        "overcommitment": 0.20797720797720798,
+        "contrast_compliance": 0.7674418604651163,
+        "typed_deferral_acc": 0.6187050359712231,
+        "deferral_detection": 0.7854166666666667,
+        "unparsed": 0,
+        "accuracy_ci": [
+          0.5208333333333334,
+          0.6083333333333333
+        ],
+        "vs_parent": {
+          "parent": "R4_RECOGNITION",
+          "b": 39,
+          "c": 36,
+          "p": 0.8175538505509841,
+          "odds": 1.0833333333333333,
+          "p_holm": 1.0
+        }
+      }
+    },
+    "meta-llama/llama-3.3-70b-instruct": {
+      "R3_SCALAR (4-way, CV router)": {
+        "n": 480,
+        "accuracy": 0.45208333333333334,
+        "macro_f1": 0.3164871601208459,
+        "ask_f1": 0.04166666666666667,
+        "ask_precision": 0.42857142857142855,
+        "ask_recall": 0.021897810218978103,
+        "overcommitment": 0.24216524216524216,
+        "contrast_compliance": 0.9069767441860465,
+        "typed_deferral_acc": 0.3831417624521073,
+        "deferral_detection": 0.7979166666666667,
+        "unparsed": 7,
+        "accuracy_ci": [
+          0.40625,
+          0.4979166666666667
+        ]
+      },
+      "R2_TYPED": {
+        "n": 480,
+        "accuracy": 0.6104166666666667,
+        "macro_f1": 0.5921305415526787,
+        "ask_f1": 0.32584269662921345,
+        "ask_precision": 0.7073170731707317,
+        "ask_recall": 0.2116788321167883,
+        "overcommitment": 0.09401709401709402,
+        "contrast_compliance": 0.6744186046511628,
+        "typed_deferral_acc": 0.6498422712933754,
+        "deferral_detection": 0.84375,
+        "unparsed": 1,
+        "accuracy_ci": [
+          0.5666666666666667,
+          0.6541666666666667
+        ]
+      },
+      "R4_RECOGNITION": {
+        "n": 480,
+        "accuracy": 0.6125,
+        "macro_f1": 0.6082989196841189,
+        "ask_f1": 0.525096525096525,
+        "ask_precision": 0.5573770491803278,
+        "ask_recall": 0.49635036496350365,
+        "overcommitment": 0.1111111111111111,
+        "contrast_compliance": 0.5968992248062015,
+        "typed_deferral_acc": 0.7022653721682848,
+        "deferral_detection": 0.8104166666666667,
+        "unparsed": 7,
+        "accuracy_ci": [
+          0.5708333333333333,
+          0.65625
+        ]
+      },
+      "hybrid: scalar gate + typed kind": {
+        "n": 480,
+        "accuracy": 0.6020833333333333,
+        "macro_f1": 0.6002355642601966,
+        "ask_f1": 0.39215686274509803,
+        "ask_precision": 0.5970149253731343,
+        "ask_recall": 0.291970802919708,
+        "overcommitment": 0.10541310541310542,
+        "contrast_compliance": 0.6356589147286822,
+        "typed_deferral_acc": 0.6699029126213593,
+        "deferral_detection": 0.825,
+        "unparsed": 7,
+        "accuracy_ci": [
+          0.5583333333333333,
+          0.64375
+        ],
+        "vs_parent": {
+          "parent": "R2_TYPED",
+          "b": 23,
+          "c": 27,
+          "p": 0.6718110337653656,
+          "odds": 0.8518518518518519,
+          "p_holm": 1.0
+        }
+      },
+      "hybrid: scalar gate + recognition kind": {
+        "n": 480,
+        "accuracy": 0.6291666666666667,
+        "macro_f1": 0.6263196578009658,
+        "ask_f1": 0.5671641791044777,
+        "ask_precision": 0.5801526717557252,
+        "ask_recall": 0.5547445255474452,
+        "overcommitment": 0.10541310541310542,
+        "contrast_compliance": 0.6356589147286822,
+        "typed_deferral_acc": 0.7119741100323624,
+        "deferral_detection": 0.825,
+        "unparsed": 7,
+        "accuracy_ci": [
+          0.5854166666666667,
+          0.6729166666666667
+        ],
+        "vs_parent": {
+          "parent": "R4_RECOGNITION",
+          "b": 40,
+          "c": 32,
+          "p": 0.40957939592707177,
+          "odds": 1.25,
+          "p_holm": 1.0
+        }
+      }
+    }
+  }
+}

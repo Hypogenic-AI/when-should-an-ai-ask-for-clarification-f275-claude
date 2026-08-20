@@ -1,0 +1,109 @@
+\section{\carb: benchmark, regimes, and protocol}
+\label{sec:method}
+
+\subsection{Problem formulation}
+
+A request $x$ is routed to one of four actions $a \in \{\act, \ask, \refuse, \defer\}$. The gold
+action is determined by three properties of the request, in a fixed order:
+
+\begin{itemize}[leftmargin=*,itemsep=1pt,topsep=2pt]
+    \item \refuse if the request is unsafe or has no determinate answer --- it should not be done
+    at all;
+    \item \defer if it is blocked by the \emph{model's} missing capability, modality, or access ---
+    hand off;
+    \item \ask if information is missing or ambiguous and the \emph{user} can supply it in one
+    turn;
+    \item \act otherwise: well specified, safe, and within capability.
+\end{itemize}
+
+The ordering matters. A request that is both unsafe and under-specified is a \refuse, not an
+\ask, and asking the user to specify it would be the wrong move. This is the same ordered
+procedure we hand the model in the typed regime, and the same rule we apply mechanically to the
+property judgments in the recognition regime --- which is what makes those two regimes comparable.
+
+\subsection{Benchmark construction}
+
+Existing benchmarks are binary. \carb assembles a four-way action space from sources that already
+carry the distinction \citep{brahman2024coconot,zhang2024clamber,qian2024in3}, and \textbf{never invents a gold label}: every item inherits its label from
+its source dataset's own annotation through a fixed table published with the benchmark
+(\tabref{tab:sources}).
+
+\input{tables/sources}
+
+\carb contains \textbf{840 items}: a dev split of 160 (threshold tuning only), a \textbf{test split
+of 480} on which every headline number is computed, and a transfer split of 200 drawn from
+\clamber, a source never used for tuning or training. Sampling is balanced by gold action over the
+640-item core pool (280 \ask / 280 \act / 140 \refuse / 140 \defer); the dev/test cut is random, so
+the test split is 137 \ask / 129 \act / 112 \refuse / 102 \defer. Two mapping cells are flagged
+\emph{contested} and every headline number is recomputed without them, under an alternative mapping
+that sends false-presupposition items to \refuse, and under a capability re-audit of the \inthree
+items (\secref{sec:sensitivity}). Training data for the fine-tuning arm (2,800 items) comes from
+\coconot's \emph{train} split and \ambigqa \citep{min2020ambigqa}; prompt-level overlap with test is 0/479 and with
+transfer 3/200.
+
+\subsection{Elicitation regimes}
+
+The independent variable is how the decision is elicited, not what is being decided
+(\figref{fig:regimes}). Every model sees every item under all five regimes, so all comparisons are
+within-item and paired.
+
+\input{figures/regimes}
+
+Two design choices deserve emphasis. First, \textbf{the scalar regime is given every advantage}:
+we do not pick a threshold by hand but search all $3$-cut $\times$ $24$-permutation routers ---
+every way of slicing the confidence axis into four ordered bins and assigning the four actions to
+them --- and select the best one under 5-fold cross-validation, so no item is ever predicted by a
+router that saw it. If a scalar confidence can support four-way routing at all, this procedure
+finds it. Second, \textbf{the recognition regime never asks the model what to do}: it asks four
+yes/no property questions (\texttt{information\_sufficient}, \texttt{user\_can\_resolve},
+\texttt{safe\_and\_determinate}, \texttt{within\_capability}), and a fixed rule converts the
+booleans into an action. The typed and recognition regimes therefore differ only in \emph{who
+applies the decision rule}, the model or us.
+
+\subsection{Models, judge, and statistics}
+
+\para{Models.} \gptfive, \claude, \gemini, and \llama through OpenRouter at temperature 0, and
+\qwen locally (bf16, greedy decoding, thinking disabled) for the training and probing arm. The
+main run is 7{,}668 API calls at \$50.79; local compute is 4$\times$ NVIDIA RTX A6000 (48 GB).
+
+\para{Judge.} Free-text responses (\rzero, \rone) must be classified into the four actions. We
+extend \textsc{AbstentionBench}'s human-validated binary abstention judge prompt to four ways and
+run it locally on \qwenjudge by \emph{constrained choice}: the judge prompt is completed with
+\texttt{\{"behaviour": "} and the four action words are compared at that slot in a single forward
+pass. This makes format errors impossible and the decision deterministic. We check reliability two
+ways: against an independent second judge (\qwen) on 3{,}768 items, raw agreement 0.863 and Cohen's
+$\kappa = 0.781$; and against 80 blind annotations of a stratified sample produced from request and
+response text alone with no access to the judge label, gold label, or source, raw agreement 0.812
+and $\kappa = 0.750$. Both fall in the conventional substantial-agreement band. We flag plainly
+that the blind annotator was itself a model, so this is a third model agreeing rather than human
+validation.
+
+\para{Metrics.} We report four-way accuracy; macro-F1; \textbf{ASK-F1} \citep{trinh2026hilbench},
+the harmonic mean of ask precision and ask recall, which no ask-everything policy can game;
+\textbf{over-commitment}, the fraction of non-\act items acted on anyway \citep{unlu2026ssta};
+\textbf{contrast compliance}, accuracy on the contrast set of superficially similar but genuinely
+answerable requests, which no refuse-everything policy can game; and \textbf{typed-deferral
+accuracy}, the fraction of correctly-withheld items given the right \emph{kind} of withholding.
+ASK-F1 and contrast compliance are reported jointly by design --- one rewards asking, the other
+punishes over-asking, and degenerate policies score well on exactly one.
+
+\para{Baselines.} Always-\act, always-\ask (the majority class), always-\refuse, uniform random,
+and a TF-IDF plus logistic-regression classifier trained on a disjoint \coconot pool as a
+lexical-shortcut probe.
+
+\para{Statistics.} Within-item comparisons use \textbf{McNemar's exact test}, Holm-corrected across
+a pre-registered family of 24 comparisons. Confidence intervals are item-level percentile
+bootstraps with 2{,}000 resamples. Effect sizes are Cohen's $h$. For the stakes experiment we
+bootstrap the \emph{change} in signal-detection parameters between frames, resampling items and
+carrying each resampled item's responses under both frames, because comparing two separately
+bootstrapped intervals is not a test. Seed 42 throughout.
+
+\subsection{Training and probing}
+
+On \qwen we add two supervised conditions. \textbf{LoRA SFT} \citep{hu2022lora}: 33M trainable parameters, 2 epochs on
+2{,}576 prompt$\rightarrow$action pairs disjoint from the test set, under the same typed prompt used
+for prompting, so the comparison isolates training from ontology. \textbf{Frozen linear probe}: a
+logistic regression on the last hidden state at the final prompt token of the \emph{base} model ---
+no fine-tuning, no generation, just the model's representation of a request it is about to answer.
+The probe answers a question prompting cannot: is the routing signal absent from the model, or
+present but unread?

@@ -1,0 +1,294 @@
+\section{Results}
+\label{sec:results}
+
+\subsection{The benchmark is neither trivial nor free of shortcuts}
+\label{sec:baselines}
+
+\input{tables/baselines}
+
+\Tabref{tab:baselines} sets the reference points. Uniform random scores 0.231 and the best
+single-action policy 0.285, so four-way accuracy is a meaningful scale. No degenerate policy scores
+well on both ASK-F1 and contrast compliance, which is why we report them jointly.
+
+We also report the shortcut we found rather than burying it. A TF-IDF plus logistic-regression
+classifier trained on a disjoint \coconot pool reaches {\bf 0.702} on the test split --- higher
+than every frontier model's typed routing except \claude's 0.721. \coconot's categories carry
+strong lexical signatures (``every'', ``all \dots{} that exists'', ``current'', ``I cannot''), and
+the same classifier collapses to 0.355 on the out-of-source transfer split. {\bf Absolute
+accuracies on the test split are therefore inflated and should be read as within-benchmark
+comparisons between regimes on identical items, never as capability estimates.} Every headline
+claim below is a within-item, between-regime contrast, which the shortcut affects equally on both
+sides.
+
+\subsection{Experiment 1: recognition beats behaviour, but the recognition that fails is specific}
+\label{sec:e1}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.95\linewidth]{figures/fig2_recognition_behaviour_gap.png}
+    \caption{The recognition--behaviour gap. For every model, the action implied by the model's own
+    property judgments (\rfour), applied through a fixed rule, is more accurate than what the model
+    actually does under a plain prompt (\rzero). The gap is much larger on over-commitment: under a
+    plain prompt models act on 45--58\% of requests they should have withheld action on; their own
+    judgments would have acted on only 11--28\%.}
+    \label{fig:gap}
+\end{figure}
+
+\input{tables/main_results}
+
+\para{Models know more than they do.} Recognition beats default behaviour for all four models
+(+0.03 to +0.12 accuracy), significantly for \llama ($p_{\text{Holm}} = 9.7\times10^{-4}$,
+$h = +0.24$) and marginally for \claude ($p_{\text{Holm}} = 0.060$). The effect is far clearer on
+the metric the gap is actually about (\figref{fig:gap}): {\bf over-commitment falls from 0.447--0.578
+under a plain prompt to 0.111--0.282 when the same model's own property judgments are routed
+through a fixed rule}. The models are not missing the information; they are not acting on it.
+
+\para{Naming the options is not enough.} Adding a bare ask-affordance (\rone) helps \gemini
+($+0.079$, $p_{\text{Holm}} = 1.4\times10^{-4}$) and \llama ($+0.054$, $p_{\text{Holm}} = 0.031$),
+does nothing for \claude ($+0.030$, n.s.), and appears to hurt \gptfive ($-0.056$,
+$p_{\text{Holm}} = 0.008$). That last result does not survive scrutiny: \gptfive returned an empty
+completion on 53/480 \rone items as reasoning tokens exhausted \texttt{max\_tokens}, which the
+headline scoring counts as errors. Restricted to items where both regimes produced a response, the
+gap shrinks to $-0.023$ ($n = 424$, $p = 0.15$, uncorrected). The honest reading is that the
+affordance helps two models and does nothing measurable for the other two. Listing the options is
+not the intervention; \emph{defining} them is (\secref{sec:e2}).
+
+\input{tables/properties}
+
+\para{Which recognition fails.} Scoring each property judgment only where the decision rule reads
+it (\tabref{tab:properties}) gives the sharpest disconfirmation of a naive reading of the
+hypothesis. Models judge ``is this safe and determinate?'' at 0.893--0.957 and ``is this within my
+capability?'' at 0.943, but ``was I told enough?'' at {\bf 0.565} on the items that needed a
+question, and ``can the user fix it in one turn?'' at 0.574. {\bf What models reliably notice is
+danger and their own limits, not underspecification} --- which is exactly the property the
+hypothesis is about. The \defer rows carry a second finding: on requests blocked by the model's own
+capability, models call the request \emph{not determinate} 37\% of the time. They misattribute
+their own limitation to the world.
+
+\subsection{Experiment 2: typed structure beats scalar uncertainty everywhere}
+\label{sec:e2}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.95\linewidth]{figures/fig1_regime_accuracy.png}
+    \caption{Four-way accuracy by elicitation regime on identical items ($n{=}480$), with
+    bootstrap 95\% CIs. Typed prompting (\rtwo) is the top or joint-top regime for every model;
+    routing a verbalised confidence (\rthree) is the worst for every model, despite being given the
+    best cross-validated router that can be fitted to it. Dashed lines mark uniform random (0.231)
+    and the best single-action policy (0.285).}
+    \label{fig:regimeacc}
+\end{figure}
+
+\para{The head-to-head.} Typed prompting beats optimally-routed scalar confidence on every model,
+by $+0.181$ (\gptfive), $+0.275$ (\claude), $+0.225$ (\gemini), and $+0.158$ (\llama) accuracy;
+Cohen's $h = 0.36$, $0.57$, $0.46$, $0.32$; all $p_{\text{Holm}} < 10^{-8}$
+(\figref{fig:regimeacc}, \tabref{tab:main}). Typed-deferral accuracy --- getting the right
+\emph{kind} of withholding --- is 0.650--0.764 under typed prompting and 0.374--0.403 under the
+scalar. This replicates \citet{unlu2026ssta} in direction at 15$\times$ the sample size and across
+five models, and corrects the magnitude: their 91.7\% typed-deferral figure was an upper bound
+produced by a single-context audit, and with contexts isolated we see 0.65--0.76.
+
+\input{tables/scalar}
+
+\para{Why the scalar cannot work.} \Tabref{tab:scalar} gives the geometric reason. The confidence
+number separates act from not-act well (AUROC 0.788--0.873) and is {\bf at chance at separating
+\defer from \refuse} (0.436--0.563, below chance for \claude). Worse, the models do not order the
+two consistently: \gptfive and \claude put \defer below \refuse in mean confidence, \gemini and
+\llama above it. Three distinct reasons for not acting cannot be recovered from an ordering of one
+number, and empirically they are not even consistently ordered.
+
+\para{Is the scalar at least complementary?} No. A hybrid policy that uses the cross-validated
+scalar for the \act gate --- its one strength --- and the typed judgment for the kind never beats
+plain typed prompting, and for \claude it is significantly \emph{worse} (0.654 \versus 0.721,
+$p_{\text{Holm}} = 1.1\times10^{-4}$). The same holds with a recognition-based second stage. The
+scalar adds nothing the typed judgment does not already contain.
+
+\para{Calibration and resolution.} The verbalised confidence is poorly calibrated as a forecast of
+``this item really was \act'' (ECE 0.162--0.210 against a 0.27 base rate, mean stated confidence
+0.364--0.446 --- systematically over-confident). It is also barely a scale: {\bf only 3--31\% of the
+probability mass falls strictly between 0.05 and 0.95} (\gemini 3\%, \claude 17\%, \gptfive 18\%,
+\llama 31\%). Asked for a number from 0 to 100, the models answer 0 or 100. Under an interaction
+budget, ranking by $1-$confidence and asking on the least confident $b\%$ recovers roughly twice
+random ask-recall (0.33--0.39 at $b = 20\%$ against 0.20 random) --- real but weak, and the typed
+policies sit at similar recall with much better precision (\claude: ask-rate 0.24, recall 0.41,
+precision 0.89).
+
+\subsection{Experiment 3: stakes move the threshold, not the judgment}
+\label{sec:e3}
+
+Each of 240 items (60 per gold action) was shown under three announced-stakes frames prepended to
+the system prompt, within-item. We exclude \gptfive: its stakes cells came back 68--100\% empty
+when the API budget ran out, and missingness that asymmetric across the manipulated factor cannot
+enter a factorial. The analysis pools \claude and \gemini.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.95\linewidth]{figures/fig10_stakes_sdt.png}
+    \caption{Announced stakes in signal-detection terms. Moving from \textsc{None} to \textsc{High}
+    slides the criterion $c$ down decisively in both regimes while leaving $d'$ flat under the typed
+    ontology and \emph{lowering} it under a plain ask-affordance. The manipulation buys
+    indiscriminate caution, not calibrated caution.}
+    \label{fig:sdt}
+\end{figure}
+
+\input{tables/stakes}
+
+\para{The manipulation works, in the wrong way.} Announcing high stakes raises the ask-rate on
+items that needed a question: $+0.133$ typed ($p_{\text{Holm}} = 0.005$) and $+0.208$ free-text
+($p_{\text{Holm}} = 1.4\times10^{-4}$), both paired \textsc{High} \versus \textsc{Low}. But it raises
+the false-alarm rate on genuinely answerable items as much or more (0.042 $\rightarrow$ 0.108 typed,
+0.042 $\rightarrow$ 0.283 free-text). A paired bootstrap of the \emph{change} between frames
+(\tabref{tab:stakes}, \figref{fig:sdt}) gives $\Delta c = -0.440$ [$-0.687$, $-0.274$], $p<0.001$
+with $\Delta d' = -0.112$ [$-0.623$, $+0.225$], $p = 0.53$ under the typed ontology. Under a plain
+ask-affordance --- which is what a deployed assistant actually has --- discrimination gets
+{\bf significantly worse}: $\Delta d' = -0.581$ [$-1.205$, $-0.109$], $p = 0.013$.
+
+\para{Additive, not interactive.} An item-clustered logistic regression of $P(\ask)$ on ambiguity
+and announced stakes says the same thing in one number: \texttt{ambiguous} $\beta = +2.553$
+($p = 4.3\times10^{-9}$) and \texttt{high} $\beta = +0.630$ ($p = 0.009$) are both large, and the
+interaction \texttt{ambiguous $\times$ high} is $\beta = {\bf +0.010}$, $p = 0.97$. A model that used
+stakes properly would show a positive interaction --- asking \emph{more where it matters}, not
+everywhere.
+
+\para{The cost is concrete.} Under \textsc{High}, the act-rate on genuinely answerable requests
+falls from 0.842 to 0.708 (typed) and from 0.925 to 0.550 (free text). Put the other way round,
+announcing high stakes takes an assistant that withheld action on 7.5\% of answerable requests and
+turns it into one that withholds on {\bf 45\%} of them.
+
+\para{Item-level stakes, where nobody tells the model anything.} Among \inthree items whose gold
+action is \ask, the ask-rate rises with the annotated importance of the missing detail: 0.045 at
+importance 2 \versus 0.306 at importance 3 under typed prompting (item-level Mann--Whitney $p = 0.006$,
+$n = 22$ \versus $9$). This is the one place where behaviour tracks stakes without being told. It is
+also confounded --- a more important missing detail is plausibly also a more obvious one --- so we
+treat it as suggestive rather than as evidence for the stakes clause.
+
+\subsection{Experiment 4: training helps in-distribution, and the signal was already there}
+\label{sec:e4}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.95\linewidth]{figures/fig7_local_training.png}
+    \caption{Prompting, training, and probing on \qwen. LoRA SFT reaches 0.794 and cuts
+    over-commitment to 1.4\%, but a frozen linear probe on the \emph{base} model's hidden state at
+    the final prompt token gets within 1.5 points of it with no training at all --- 20 points above
+    what the same model does when simply asked. On the out-of-source transfer split both supervised
+    conditions fall below the untrained prompted baselines.}
+    \label{fig:local}
+\end{figure}
+
+\input{tables/local}
+
+\para{The frontier patterns reproduce on an open model.} \qwen shows both effects on its own
+(\tabref{tab:local}): typed prompting (0.577) beats scalar routing (0.442) by 13.5 points on
+identical items, the same direction and roughly the same size as the four frontier models, and
+under a plain prompt it acts on {\bf 58\%} of items it should have withheld action on, which the
+typed prompt cuts to 17\% and the recognition rule to 13\%. Whatever this is, it is not an artefact
+of one lab's post-training.
+
+\para{Training works, in-distribution.} LoRA SFT on 2{,}576 prompt$\rightarrow$action pairs reaches
+{\bf 0.794}, $+0.217$ over the same model prompted with the same ontology (McNemar
+$p = 8.0\times10^{-15}$, $b{=}145$ / $c{=}41$), with over-commitment down to 0.014 and ASK-F1 up
+from 0.489 to 0.798 --- in under two hours on one shared A6000.
+
+\para{But the signal was already in the representation.} A logistic regression on the last hidden
+state at the final prompt token of the \emph{base} model --- no fine-tuning, no generation ---
+reaches 0.779, {\bf 20 points above what the same model does when asked} (McNemar
+$p = 6.3\times10^{-12}$), within 1.5 points of the fine-tuned model. Read together with the SFT
+result: LoRA training did not teach the model to route, it taught it to \emph{read out} a routing
+signal its frozen representation already carried. That is the representation-level version of the
+recognition--behaviour gap in \secref{sec:e1}.
+
+\para{Neither transfers.} On the out-of-source split the SFT model drops to 0.470 and the probe to
+0.465 --- both \emph{below} the untrained prompted baselines (0.535--0.590), with the differences
+not significant in either direction (McNemar $p = 0.11$ and $0.13$). The blunter framing is worse:
+\clamber is binary, so the relevant reference is always-\act at 0.50, and every condition ---
+trained, probed, or prompted --- sits within $\pm 0.09$ of just answering everything. The TF-IDF
+control shows the same shape (0.702 in-source $\rightarrow$ 0.355 out-of-source). Nothing in this
+study demonstrates a routing policy that generalises across sources.
+
+\subsection{Where the errors go}
+\label{sec:errors}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.95\linewidth]{figures/fig3_confusion_matrices.png}
+    \caption{Confusion matrices by regime (rows = gold, columns = predicted). Two structures are
+    visible. Under a plain prompt the mass sits in the \ask $\rightarrow$ \act cell: models answer
+    under-specified requests. Under the scalar router the mass collapses into a single
+    low-confidence label --- \defer for \claude, \refuse for \gemini and \llama --- so the router is
+    making a two-way choice and labelling it three ways.}
+    \label{fig:confusion}
+\end{figure}
+
+Pooling over the four models, four patterns stand out.
+
+\para{The dominant default error is answering an under-specified request.} Under a plain prompt,
+390 of 548 \ask items ({\bf 71\%}) are answered outright. The typed ontology cuts that to 170
+(31\%) --- the single largest behavioural change anywhere in this study. It also costs something:
+contrast compliance falls from 92\% to 76\%, so the typed prompt makes models withhold on genuinely
+answerable requests too.
+
+\para{Clarify-versus-abstain is exactly the confusion \citet{baan2026bag} named.} Under typed
+prompting, 144 of 548 \ask items are routed to \refuse --- 26\%, almost as many as are routed
+correctly (178). The model recognises ``I should not just answer this'' and then picks
+\emph{decline} rather than \emph{ask}, converting a recoverable interaction into a dead end. No
+scalar-confidence route touches this, because the scalar cannot tell \refuse from \defer, let alone
+\ask from \refuse.
+
+\para{The scalar router collapses two categories into one, visibly.} \Figref{fig:confusion} shows
+what collapse means concretely: the cross-validated router assigns its lowest-confidence bin to a
+single label and everything low-confidence lands there. For \claude that bin is \defer (\defer
+recall 0.90, but 78\% of \refuse items sent to \defer); for \gemini and \llama it is \refuse
+(\refuse recall 0.92/0.87, but 83\%/75\% of \defer items sent to \refuse).
+
+\para{\defer is systematically misread as \refuse} (77/408, 19\%, under typed prompting), matching
+the property result that models judge their own capability blocks to be indeterminacies of the
+world. Qualitatively, the \ask $\rightarrow$ \act errors are \emph{plausible-completion} errors:
+given ``Create a 30-minute at-home cardio workout plan'', the model's own reason field reads
+\emph{``The request is clear, safe, and within my capabilities''} --- it substitutes a generic
+instantiation for the missing specifics and never registers that specifics were missing. The
+\defer $\rightarrow$ \refuse errors are attribution errors: for ``a line-by-line analysis of every
+piece of legislation passed since 1789'' the reason reads \emph{``This request has no determinate
+scope''} rather than ``this exceeds what I can produce''.
+
+\subsection{Is any of this worth deploying?}
+\label{sec:utility}
+
+Accuracy prices every error the same, and the hypothesis is explicitly about stakes. We therefore
+score every policy under a cost model with one free parameter $K$, the cost of acting on a request
+that should have been withheld (correct action $+1$, needless question $-0.3$, needless refusal
+$-1.0$, withheld for the wrong reason $+0.2$).
+
+\input{tables/utility}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.95\linewidth]{figures/fig8_utility_vs_stakes.png}
+    \caption{Mean utility per request as the cost $K$ of an unwarranted action rises. The flat
+    always-\ask line is the bar that matters: every frontier model's best prompted policy crosses
+    below it at $K \approx 5$--$10$. $K = 10$ is not extreme --- it is ``a wrong action costs ten
+    times a needless refusal'', about 33$\times$ a needless clarifying question, which is mild for
+    anything that writes to a database, sends a message, or gives medical advice.}
+    \label{fig:utility}
+\end{figure}
+
+\Tabref{tab:utility} and \figref{fig:utility} give the deployment-relevant reading. Every model's
+\emph{default behaviour} goes negative between $K=1$ and $K=2$, \ie as soon as a wrong action costs
+even slightly more than a needless refusal. Every frontier model's best prompted policy crosses
+below the trivial always-\ask policy at $K \approx 5$--$10$ and goes negative shortly after. Only
+the two in-distribution supervised \qwen policies stay above always-\ask across the sweep, and
+\secref{sec:e4} has already shown neither survives a change of source. The conclusion is not that
+these models cannot route; it is that {\bf their routing is not yet good enough to beat asking
+every time} in exactly the regime the hypothesis cares about.
+
+\subsection{Sensitivity to the label mapping}
+\label{sec:sensitivity}
+
+Because the gold labels are inherited rather than authored, the mapping table is the main place a
+systematic error could enter. We recomputed every model $\times$ regime cell three ways: dropping
+the two contested mapping cells, under an alternative mapping that sends false-presupposition items
+to \refuse, and under a capability re-audit of the \inthree items. Individual accuracies move by at
+most {\bf 0.068}, and {\bf both headline orderings survive in all 16 model $\times$ variant cells}:
+typed beats scalar everywhere, and recognition beats default behaviour everywhere. The rank order
+is not completely invariant --- for \llama the pre-registered labels put recognition 0.003 above
+typed, which every variant reverses --- but no conclusion above depends on that pair.

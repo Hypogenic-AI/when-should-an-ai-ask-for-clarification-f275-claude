@@ -1,0 +1,19 @@
+{
+  "n": 80,
+  "raw_agreement": 0.8125,
+  "cohens_kappa": 0.75,
+  "confusion": {
+    "human=ACT|judge=ACT": 18,
+    "human=ACT|judge=ASK": 3,
+    "human=ACT|judge=REFUSE": 1,
+    "human=ASK|judge=ASK": 14,
+    "human=ASK|judge=DEFER": 2,
+    "human=REFUSE|judge=ACT": 1,
+    "human=REFUSE|judge=ASK": 3,
+    "human=REFUSE|judge=REFUSE": 19,
+    "human=REFUSE|judge=DEFER": 4,
+    "human=DEFER|judge=ACT": 1,
+    "human=DEFER|judge=DEFER": 14
+  },
+  "annotator": "the orchestrating research agent (Claude Opus 5), annotating blind from request+response only, with no access to the judge's label, the gold label, or the item's source; NOT an independent human annotator"
+}

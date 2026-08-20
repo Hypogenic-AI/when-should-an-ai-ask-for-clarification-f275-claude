@@ -1,0 +1,72 @@
+\section{Related Work}
+\label{sec:related}
+
+\para{Clarification: when to ask.} \citet{zhang2023clarify} give the canonical decomposition ---
+when to clarify, what to ask, and how to use the answer --- and propose \textsc{Intent-Sim}, which
+scores ambiguity by the entropy of simulated user intents. Their evaluation protocol, AUROC plus
+performance under a fixed interaction budget, is the one we adopt in \secref{sec:results} for the
+scalar regime. Their absolute numbers are also a caution: AUROCs cluster at 0.50--0.63, and
+\textsc{Self-Ask} scores 0.371 on machine translation --- below chance. \citet{zhang2024clamber}
+supply a balanced ask/don't-ask benchmark with a taxonomy, which we use as our out-of-source
+transfer split precisely because it was never used for tuning. \citet{qian2024in3} annotate the
+\emph{importance} of each missing detail, which gives us item-level stakes that nobody announces to
+the model. Unlike this line of work, we do not ask whether to clarify; we ask which of four actions
+is right, because \emph{don't clarify} is three different things.
+
+\para{Abstention: when to decline.} \citet{wen2024knowlimits} survey abstention along query, model,
+and human-value axes and argue it should be treated as a meta-capability rather than a per-task
+trick. \textsc{AbstentionBench} \citep{abstentionbench2025} reports that reasoning fine-tuning
+\emph{hurts} abstention by roughly 24\%, and ships a human-validated binary abstention judge whose
+prompt we extend into a four-way judge (\secref{sec:method}). The limitation we inherit from this
+literature is exactly the one it is built on: abstention is binary, so refusing and deferring
+score identically.
+
+\para{Agentic help-seeking.} \textsc{HiL-Bench} \citep{trinh2026hilbench} places human-validated
+blockers in \textsc{SWE-Bench Pro} and \textsc{BIRD} tasks that surface only through execution, and
+finds frontier models score 75--89\% pass@3 with full information but 4--24\% when they must judge
+whether to ask --- despite having an \texttt{ask\_human()} tool. Their ASK-F1 metric, the harmonic
+mean of question precision and blocker recall, is spam-resistant by construction and we report it
+throughout. They also show RLVR on shaped ASK-F1 transfers across domains, which is the strongest
+existing evidence for the trainability clause; our \secref{sec:results} training arm supervises the
+typed label instead, and finds transfer does \emph{not} follow for free.
+\citet{ask2024awn} independently find that agents fabricate missing tool arguments rather than
+asking, which is the mechanism behind the over-commitment rates we measure.
+
+\para{The full action space.} Two recent papers propose ontologies close to ours.
+\citet{unlu2026ssta} define four support states by minimal repair distance --- complete,
+clarifiable, support-blocked, unsupported-now --- and report that scalar confidence prompting
+avoids over-commitment but collapses the three-way deferral space to 58.3\% typed accuracy, while
+surfacing the categorical ontology reaches 91.7\%. The result is the direct ancestor of our
+Experiment~2, but it rests on 32 items, one model, and a dual-persona audit run inside a single
+context window, which the author concedes yields upper-bound estimates. We replicate the
+\emph{direction} at 15$\times$ the sample size, across five models, with contexts isolated --- and
+find the 91.7\% figure was indeed an upper bound (we see 0.650--0.764 typed-deferral accuracy).
+\citet{baan2026bag} let a model reason over its own sampled belief state to pick answer, clarify,
+or abstain, and name clarify-versus-abstain separation as the open problem; our confusion matrices
+quantify it (26\% of \ask items routed to \refuse under typed prompting).
+\textsc{Safety Sentry} \citep{safetysentry2026} routes over execute/ask/refuse with a single
+decoding-time threshold repositioned per deployment risk --- the cleanest existing mechanism for
+the stakes clause, and the motivation for measuring criterion shift separately from discrimination.
+
+\para{Recognition \versus behaviour.} \citet{su2026knowing} show models identify ambiguity when
+explicitly asked to judge it, yet default to direct answers in ordinary QA, and that retrieved
+context widens the gap. This is the framing of our Experiment~1. Building on it, we do not stop at
+showing the gap exists: we decompose recognition into four separately-scored properties and show
+that safety and capability recognition are near-ceiling while information-sufficiency recognition
+is near chance, which changes what an intervention should target.
+
+\para{Uncertainty estimation.} Semantic entropy over NLI-clustered samples \citep{kuhn2023semantic} is the standard strong
+baseline, and conformal methods \citep{yadkori2024conformal} give distribution-free risk control at
+a chosen level. \citet{entropyinsufficient2026} report a negative result for entropy-based
+selective prediction. \citet{zong2026icalm} announce answer/abstain payoff matrices in the prompt,
+which we adapt directly for our announced-stakes manipulation. Our contribution here is negative
+and geometric: we show that the problem with a scalar is not its sharpness but its dimensionality
+--- three deferral types cannot be recovered from an ordering of one number, and empirically the
+models do not even order them consistently.
+
+\para{Evaluation beyond a single turn.} \citet{regretbench2026} score clarification as a
+\emph{policy} under hidden intent, decomposing regret against a reference policy into intent
+resolution, interaction cost, and ineffective clarification, and \citet{humanevalcomm2024} measure
+the cost of a wrong assumption objectively by running the resulting code. Both are the natural
+next step past what we measure: \carb scores a single routing decision per request, so it can say
+whether asking was right but not whether the conversation that followed was efficient.

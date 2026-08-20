@@ -1,0 +1,32 @@
+\begin{table}[t]
+    \centering
+    \small
+    \begin{tabular}{@{}lccccc@{}}
+        \toprule
+        \textbf{Policy} & $K{=}1$ & $K{=}3$ & $K{=}5$ & $K{=}10$ & $K{=}30$ \\
+        \midrule
+        oracle                        & $+1.00$ & $+1.00$ & $+1.00$ & $+1.00$ & $+1.00$ \\
+        always \ask                   & $+0.29$ & $+0.29$ & $+0.29$ & $+0.29$ & $+0.29$ \\
+        always \act (today's default) & $-0.46$ & $-1.93$ & $-3.39$ & $-7.04$ & $-21.67$ \\
+        \midrule
+        \claude, typed   & {\bf +0.63} & {\bf +0.46} & {\bf +0.28} & $-0.15$ & $-1.90$ \\
+        \llama, typed    & $+0.51$ & $+0.37$ & $+0.23$ & $-0.12$ & $-1.54$ \\
+        \gemini, typed   & $+0.53$ & $+0.35$ & $+0.16$ & $-0.31$ & $-2.18$ \\
+        \gptfive, typed  & $+0.39$ & $-0.03$ & $-0.46$ & $-1.51$ & $-5.72$ \\
+        \claude, default behaviour  & $+0.21$ & $-0.45$ & $-1.11$ & $-2.75$ & $-9.34$ \\
+        \gptfive, default behaviour & $+0.14$ & $-0.62$ & $-1.38$ & $-3.27$ & $-10.86$ \\
+        \midrule
+        \qwen frozen probe & {\bf +0.69} & {\bf +0.68} & {\bf +0.67} & {\bf +0.64} & {\bf +0.51} \\
+        \qwen LoRA SFT     & $+0.70$ & $+0.68$ & $+0.66$ & $+0.61$ & $+0.40$ \\
+        \bottomrule
+    \end{tabular}
+    \caption{Mean utility per request when errors are priced. $K$ is the cost of acting on a
+    request that should have been withheld; a correct action scores $+1$, a needless question
+    $-0.3$, a needless refusal $-1.0$, and withholding for the wrong reason $+0.2$. Read down the
+    columns: every frontier model's best prompted policy crosses below the trivial
+    \emph{always-\ask} policy at $K \approx 5$--$10$ and goes negative shortly after, and every
+    model's \emph{default behaviour} goes negative between $K=1$ and $K=2$. The two supervised
+    \qwen policies stay above always-\ask across the whole sweep --- but \tabref{tab:local} shows
+    neither survives a change of source, so that is a statement about \carb, not about deployment.}
+    \label{tab:utility}
+\end{table}

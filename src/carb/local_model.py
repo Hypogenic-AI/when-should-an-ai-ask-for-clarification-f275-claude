@@ -2,7 +2,7 @@
 Experiment 4: can the routing decision be *trained* into an open-weight model, and is the
 information already present in its representations before any training?
 
-Three parts, all on Qwen3-8B (bf16, single A6000):
+Three parts, all on Qwen3-4B (bf16, single A6000):
 
   (a) zero-shot  - the same R2/R3/R4 prompts used for the API models, run locally
   (b) LoRA SFT   - fine-tune on typed routing (datasets/carb/sft_train.jsonl) and re-evaluate
@@ -27,7 +27,7 @@ import numpy as np
 import torch
 
 ROOT = Path(__file__).resolve().parents[2]
-os.environ.setdefault("HF_HOME", os.environ.get("HF_HOME") or "/home/neurico/hfcache")
+os.environ.setdefault("HF_HOME", str(ROOT / ".hf_cache"))
 
 from transformers import AutoModelForCausalLM, AutoTokenizer  # noqa: E402
 
@@ -113,7 +113,9 @@ def eval_zero_shot(tag: str, adapter: str | None, splits: list[str], regimes: li
             tmpl = REGIMES[regime]
             texts = [build_chat(tok, tmpl["system"], tmpl["user"].format(prompt=it["prompt"])) for it in items]
             print(f"  generating {tag} {split} {regime} n={len(texts)}", flush=True)
-            raws = generate(tok, model, texts, max_new_tokens=96 if regime != "R4_RECOGNITION" else 128)
+            # free-text regimes need room for a real answer; the JSON regimes do not
+            budget = {"R0_DIRECT": 512, "R1_AFFORDANCE": 512, "R4_RECOGNITION": 128}.get(regime, 96)
+            raws = generate(tok, model, texts, max_new_tokens=budget)
             with dst.open("w") as f:
                 for it, r in zip(items, raws):
                     f.write(json.dumps({"item_id": it["item_id"], "regime": regime, "raw": r}) + "\n")
@@ -125,6 +127,11 @@ def eval_zero_shot(tag: str, adapter: str | None, splits: list[str], regimes: li
 # (b) LoRA SFT
 # ---------------------------------------------------------------------------------------
 def train_lora(out_dir: Path, epochs: int = 3, lr: float = 1e-4, bsz: int = 8, accum: int = 2) -> None:
+    """LoRA SFT on typed routing.
+
+    The adapter is written after every epoch, not only at the end: this box is shared and a
+    co-tenant process OOM-killed the first attempt mid-run, losing all of it.
+    """
     from peft import LoraConfig, get_peft_model
 
     set_seed()
@@ -212,6 +219,10 @@ def train_lora(out_dir: Path, epochs: int = 3, lr: float = 1e-4, bsz: int = 8, a
                 nb += 1
         print(f"  epoch {ep}: val_loss={vl/max(nb,1):.4f}", flush=True)
         log.append({"epoch": ep, "val_loss": vl / max(nb, 1)})
+        out_dir.mkdir(parents=True, exist_ok=True)
+        model.save_pretrained(str(out_dir))
+        (ROOT / "results" / "sft_log.json").write_text(json.dumps(log, indent=2))
+        print(f"  checkpoint written to {out_dir}", flush=True)
 
     out_dir.mkdir(parents=True, exist_ok=True)
     model.save_pretrained(str(out_dir))
@@ -283,6 +294,9 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--stage", required=True,
                     choices=["zeroshot", "train", "eval_trained", "probe"])
+    ap.add_argument("--epochs", type=int, default=3)
+    ap.add_argument("--bsz", type=int, default=8)
+    ap.add_argument("--accum", type=int, default=2)
     a = ap.parse_args()
     adapter_dir = ROOT / "results" / "lora_router"
 
@@ -291,7 +305,7 @@ def main() -> None:
                        ["R2_TYPED", "R3_SCALAR", "R4_RECOGNITION"])
         eval_zero_shot(f"{TAG}_base", None, ["dev"], ["R3_SCALAR"])
     elif a.stage == "train":
-        train_lora(adapter_dir)
+        train_lora(adapter_dir, epochs=a.epochs, bsz=a.bsz, accum=a.accum)
     elif a.stage == "eval_trained":
         eval_zero_shot(f"{TAG}_sft", str(adapter_dir), ["test", "transfer"], ["R2_TYPED"])
     elif a.stage == "probe":

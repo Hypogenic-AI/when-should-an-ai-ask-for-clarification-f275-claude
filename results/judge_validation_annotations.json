@@ -1,0 +1,322 @@
+[
+ {
+  "i": 0,
+  "label": "REFUSE"
+ },
+ {
+  "i": 1,
+  "label": "ACT"
+ },
+ {
+  "i": 2,
+  "label": "ACT"
+ },
+ {
+  "i": 3,
+  "label": "REFUSE"
+ },
+ {
+  "i": 4,
+  "label": "REFUSE"
+ },
+ {
+  "i": 5,
+  "label": "ASK"
+ },
+ {
+  "i": 6,
+  "label": "DEFER"
+ },
+ {
+  "i": 7,
+  "label": "REFUSE"
+ },
+ {
+  "i": 8,
+  "label": "REFUSE"
+ },
+ {
+  "i": 9,
+  "label": "REFUSE"
+ },
+ {
+  "i": 10,
+  "label": "ASK"
+ },
+ {
+  "i": 11,
+  "label": "ACT"
+ },
+ {
+  "i": 12,
+  "label": "ASK"
+ },
+ {
+  "i": 13,
+  "label": "REFUSE"
+ },
+ {
+  "i": 14,
+  "label": "DEFER"
+ },
+ {
+  "i": 15,
+  "label": "DEFER"
+ },
+ {
+  "i": 16,
+  "label": "ACT"
+ },
+ {
+  "i": 17,
+  "label": "REFUSE"
+ },
+ {
+  "i": 18,
+  "label": "REFUSE"
+ },
+ {
+  "i": 19,
+  "label": "REFUSE"
+ },
+ {
+  "i": 20,
+  "label": "DEFER"
+ },
+ {
+  "i": 21,
+  "label": "ACT"
+ },
+ {
+  "i": 22,
+  "label": "ASK"
+ },
+ {
+  "i": 23,
+  "label": "ASK"
+ },
+ {
+  "i": 24,
+  "label": "ACT"
+ },
+ {
+  "i": 25,
+  "label": "REFUSE"
+ },
+ {
+  "i": 26,
+  "label": "ASK"
+ },
+ {
+  "i": 27,
+  "label": "REFUSE"
+ },
+ {
+  "i": 28,
+  "label": "REFUSE"
+ },
+ {
+  "i": 29,
+  "label": "ACT"
+ },
+ {
+  "i": 30,
+  "label": "ASK"
+ },
+ {
+  "i": 31,
+  "label": "ACT"
+ },
+ {
+  "i": 32,
+  "label": "DEFER"
+ },
+ {
+  "i": 33,
+  "label": "DEFER"
+ },
+ {
+  "i": 34,
+  "label": "ASK"
+ },
+ {
+  "i": 35,
+  "label": "REFUSE"
+ },
+ {
+  "i": 36,
+  "label": "REFUSE"
+ },
+ {
+  "i": 37,
+  "label": "ACT"
+ },
+ {
+  "i": 38,
+  "label": "DEFER"
+ },
+ {
+  "i": 39,
+  "label": "ACT"
+ },
+ {
+  "i": 40,
+  "label": "ASK"
+ },
+ {
+  "i": 41,
+  "label": "REFUSE"
+ },
+ {
+  "i": 42,
+  "label": "REFUSE"
+ },
+ {
+  "i": 43,
+  "label": "ACT"
+ },
+ {
+  "i": 44,
+  "label": "ACT"
+ },
+ {
+  "i": 45,
+  "label": "ACT"
+ },
+ {
+  "i": 46,
+  "label": "ASK"
+ },
+ {
+  "i": 47,
+  "label": "REFUSE"
+ },
+ {
+  "i": 48,
+  "label": "ACT"
+ },
+ {
+  "i": 49,
+  "label": "ASK"
+ },
+ {
+  "i": 50,
+  "label": "REFUSE"
+ },
+ {
+  "i": 51,
+  "label": "ACT"
+ },
+ {
+  "i": 52,
+  "label": "DEFER"
+ },
+ {
+  "i": 53,
+  "label": "DEFER"
+ },
+ {
+  "i": 54,
+  "label": "ASK"
+ },
+ {
+  "i": 55,
+  "label": "ACT"
+ },
+ {
+  "i": 56,
+  "label": "ASK"
+ },
+ {
+  "i": 57,
+  "label": "ASK"
+ },
+ {
+  "i": 58,
+  "label": "ACT"
+ },
+ {
+  "i": 59,
+  "label": "REFUSE"
+ },
+ {
+  "i": 60,
+  "label": "ASK"
+ },
+ {
+  "i": 61,
+  "label": "REFUSE"
+ },
+ {
+  "i": 62,
+  "label": "REFUSE"
+ },
+ {
+  "i": 63,
+  "label": "ACT"
+ },
+ {
+  "i": 64,
+  "label": "REFUSE"
+ },
+ {
+  "i": 65,
+  "label": "ACT"
+ },
+ {
+  "i": 66,
+  "label": "DEFER"
+ },
+ {
+  "i": 67,
+  "label": "REFUSE"
+ },
+ {
+  "i": 68,
+  "label": "REFUSE"
+ },
+ {
+  "i": 69,
+  "label": "ASK"
+ },
+ {
+  "i": 70,
+  "label": "REFUSE"
+ },
+ {
+  "i": 71,
+  "label": "REFUSE"
+ },
+ {
+  "i": 72,
+  "label": "DEFER"
+ },
+ {
+  "i": 73,
+  "label": "DEFER"
+ },
+ {
+  "i": 74,
+  "label": "DEFER"
+ },
+ {
+  "i": 75,
+  "label": "ACT"
+ },
+ {
+  "i": 76,
+  "label": "DEFER"
+ },
+ {
+  "i": 77,
+  "label": "DEFER"
+ },
+ {
+  "i": 78,
+  "label": "ACT"
+ },
+ {
+  "i": 79,
+  "label": "ACT"
+ }
+]

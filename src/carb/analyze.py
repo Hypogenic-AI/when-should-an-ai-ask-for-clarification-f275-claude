@@ -32,7 +32,7 @@ REGIME_ORDER = ["R0_DIRECT", "R1_AFFORDANCE", "R2_TYPED", "R3_SCALAR", "R4_RECOG
 SHORT = {"openai/gpt-5": "GPT-5", "anthropic/claude-sonnet-4.5": "Claude-Sonnet-4.5",
          "google/gemini-2.5-flash": "Gemini-2.5-Flash",
          "meta-llama/llama-3.3-70b-instruct": "Llama-3.3-70B",
-         "qwen3-8b_base": "Qwen3-8B (base)", "qwen3-8b_sft": "Qwen3-8B (LoRA SFT)"}
+         "qwen3-4b_base": "Qwen3-4B (base)", "qwen3-4b_sft": "Qwen3-4B (LoRA SFT)"}
 
 
 def collect(split: str) -> dict:
@@ -137,6 +137,18 @@ def main() -> None:
             r = mcnemar(g, xa, xb)
             r.update({"acc_a": accuracy(g, xa), "acc_b": accuracy(g, xb), "n": len(ids),
                       "cohens_h": cohens_h(accuracy(g, xa), accuracy(g, xb))})
+            # Complete-case sensitivity.  A missing response (empty completion, or a judge
+            # label that could not be parsed) is scored as an error in the headline numbers,
+            # which is the deployment-realistic reading but penalises GPT-5, whose responses
+            # were truncated on 3-11% of items when its reasoning tokens exhausted max_tokens.
+            cc = [k for k in range(len(ids)) if xa[k] in ACTIONS and xb[k] in ACTIONS]
+            if cc and len(cc) < len(ids):
+                gc = [g[k] for k in cc]
+                r["complete_case"] = {
+                    "n": len(cc), "n_dropped": len(ids) - len(cc),
+                    "acc_a": accuracy(gc, [xa[k] for k in cc]),
+                    "acc_b": accuracy(gc, [xb[k] for k in cc]),
+                    "p": mcnemar(gc, [xa[k] for k in cc], [xb[k] for k in cc])["p"]}
             tests[f"{name}|{m}"] = r
     adj = holm({k: v["p"] for k, v in tests.items()})
     for k in tests:

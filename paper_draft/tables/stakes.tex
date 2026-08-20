@@ -1,0 +1,33 @@
+\begin{table}[t]
+    \centering
+    \small
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{@{}llcccc@{}}
+        \toprule
+        \textbf{Regime} & \textbf{Frame} & \textbf{Hit rate} & \textbf{False alarm} & \textbf{$d'$ [95\% CI]} & \textbf{Criterion $c$ [95\% CI]} \\
+         & & (ask $\mid$ gold \ask) & (ask $\mid$ gold \act) & & \\
+        \midrule
+        \multirow{3}{*}{\rtwo (typed)}
+          & \textsc{None} & 0.283 & 0.042 & 1.159 [0.74, 1.77] & 1.152 [0.95, 1.47] \\
+          & \textsc{Low}  & 0.292 & 0.050 & 1.096 [0.68, 1.65] & 1.097 [0.90, 1.40] \\
+          & \textsc{High} & 0.425 & 0.108 & 1.046 [0.70, 1.46] & {\bf 0.712} [0.54, 0.91] \\
+        \midrule
+        \multirow{3}{*}{\rone (free text)}
+          & \textsc{None} & 0.333 & 0.042 & 1.301 [0.91, 1.94] & 1.081 [0.88, 1.42] \\
+          & \textsc{Low}  & 0.350 & 0.058 & 1.184 [0.81, 1.70] & 0.977 [0.79, 1.26] \\
+          & \textsc{High} & 0.558 & 0.283 & {\bf 0.720} [0.41, 1.06] & {\bf 0.213} [0.06, 0.39] \\
+        \midrule
+        \multicolumn{6}{@{}l@{}}{\emph{Paired bootstrap of the change, \textsc{High} $-$ \textsc{None} (4{,}000 resamples over items)}} \\
+        \rtwo (typed)     & & \multicolumn{2}{l}{$\Delta d' = -0.112$ [$-0.623$, $+0.225$], $p = 0.53$} & \multicolumn{2}{l}{$\Delta c = -0.440$ [$-0.687$, $-0.274$], $p < 0.001$} \\
+        \rone (free text) & & \multicolumn{2}{l}{$\Delta d' = -0.581$ [$-1.205$, $-0.109$], $p = 0.013$} & \multicolumn{2}{l}{$\Delta c = -0.868$ [$-1.202$, $-0.651$], $p < 0.001$} \\
+        \bottomrule
+    \end{tabular}%
+    }
+    \caption{Announced stakes, decomposed by signal detection theory over 240 items shown under
+    three frames within-item, pooled over \claude and \gemini. Announcing high stakes moves the
+    \emph{criterion} decisively in both regimes and leaves \emph{discrimination} statistically
+    unchanged under the typed ontology --- and makes it significantly worse under a plain
+    ask-affordance, where the false-alarm rate rises almost sevenfold. Telling a model the stakes
+    are high makes it more anxious, not a better judge.}
+    \label{tab:stakes}
+\end{table}

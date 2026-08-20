@@ -1,0 +1,45 @@
+\begin{table}[t]
+    \centering
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{@{}llcccccc@{}}
+        \toprule
+        \textbf{Model} & \textbf{Regime} & \textbf{Acc [95\% CI]} & \textbf{Macro-F1} & \textbf{ASK-F1} & \textbf{Over-commit $\downarrow$} & \textbf{Contrast compl.} & \textbf{Typed-deferral} \\
+        \midrule
+        \multirow{5}{*}{\claude}
+          & \rzero  & 0.535 [0.494, 0.579] & 0.533 & 0.383 & 0.447 & 0.891 & 0.736 \\
+          & \rone   & 0.565 [0.519, 0.608] & 0.566 & 0.428 & 0.325 & 0.829 & 0.695 \\
+          & \rtwo   & {\bf 0.721} [0.679, 0.762] & {\bf 0.711} & {\bf 0.549} & 0.120 & 0.853 & {\bf 0.764} \\
+          & \rthree & 0.446 [0.400, 0.487] & 0.331 & 0.143 & 0.268 & 0.860 & 0.402 \\
+          & \rfour  & 0.608 [0.565, 0.652] & 0.590 & 0.313 & {\bf 0.157} & 0.736 & 0.670 \\
+        \midrule
+        \multirow{5}{*}{\gemini}
+          & \rzero  & 0.515 [0.471, 0.558] & 0.500 & 0.273 & 0.536 & 0.938 & {\bf 0.778} \\
+          & \rone   & 0.594 [0.550, 0.637] & 0.587 & {\bf 0.373} & 0.393 & 0.930 & 0.775 \\
+          & \rtwo   & {\bf 0.652} [0.610, 0.694] & {\bf 0.629} & 0.364 & {\bf 0.128} & 0.744 & 0.709 \\
+          & \rthree & 0.427 [0.381, 0.473] & 0.297 & 0.000 & 0.208 & 0.783 & 0.374 \\
+          & \rfour  & 0.558 [0.512, 0.602] & 0.513 & 0.374 & 0.282 & 0.860 & 0.623 \\
+        \midrule
+        \multirow{5}{*}{\llama}
+          & \rzero  & 0.492 [0.448, 0.537] & 0.470 & 0.180 & 0.578 & 0.953 & {\bf 0.764} \\
+          & \rone   & 0.546 [0.500, 0.590] & 0.535 & 0.372 & 0.447 & 0.938 & 0.727 \\
+          & \rtwo   & 0.610 [0.565, 0.652] & 0.592 & 0.326 & {\bf 0.094} & 0.674 & 0.650 \\
+          & \rthree & 0.452 [0.408, 0.496] & 0.316 & 0.042 & 0.242 & 0.907 & 0.383 \\
+          & \rfour  & {\bf 0.613} [0.567, 0.658] & {\bf 0.608} & {\bf 0.525} & 0.111 & 0.597 & 0.702 \\
+        \midrule
+        \multirow{5}{*}{\gptfive}
+          & \rzero  & 0.521 [0.475, 0.565] & 0.516 & 0.450 & 0.473 & 0.915 & {\bf 0.781} \\
+          & \rone   & 0.465 [0.421, 0.506] & 0.468 & 0.425 & 0.427 & 0.837 & 0.732 \\
+          & \rtwo   & {\bf 0.598} [0.554, 0.640] & {\bf 0.610} & {\bf 0.490} & 0.254 & 0.775 & 0.748 \\
+          & \rthree & 0.417 [0.373, 0.465] & 0.388 & 0.297 & 0.276 & 0.775 & 0.403 \\
+          & \rfour  & 0.552 [0.506, 0.598] & 0.535 & 0.206 & {\bf 0.205} & 0.760 & 0.630 \\
+        \bottomrule
+    \end{tabular}%
+    }
+    \caption{Four-way routing on the \carb test split ($n{=}480$). Best per model in {\bf bold}.
+    Reference points: uniform random 0.231, best single-action policy 0.285. Typed prompting
+    (\rtwo) is best or tied-best on accuracy for all four models and cuts over-commitment from
+    0.447--0.578 under a plain prompt to 0.094--0.254; routing an optimally-thresholded verbalised
+    confidence (\rthree) is worst everywhere. Missing responses are scored as errors, which
+    penalises \gptfive (16--53 empty completions per regime; see \secref{sec:threats}).}
+    \label{tab:main}
+\end{table}

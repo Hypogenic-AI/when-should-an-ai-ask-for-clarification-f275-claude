@@ -1,0 +1,111 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{What the results say about the hypothesis, clause by clause}
+
+The hypothesis we set out to test has five separable claims, and the design lets each fail alone.
+
+\para{``Can be prompted to recognise when it lacks sufficient information'' --- partly true, and
+weaker than the literature suggests.} Recognition beats behaviour for all four models, replicating
+\citet{su2026knowing}. But recognition of the specific property at issue is 0.565 on the items where
+it matters, against 0.893--0.957 for safety and 0.943 for capability. The blanket statement
+``models recognise ambiguity'' is too generous: what they reliably recognise is danger and their own
+limits. Underspecification is the blind spot, and it is the one the hypothesis names.
+
+\para{``By estimating its uncertainty'' --- false as a mechanism.} This is the clearest result in
+the paper. An optimally-routed scalar confidence loses to typed prompting by 0.158--0.275 accuracy
+on every model, is at chance at distinguishing the three reasons for not acting, has almost no
+resolution to threshold (3--31\% of mass strictly between 0.05 and 0.95), and adds nothing when
+bolted onto a typed policy. The failure is not that the estimator is imprecise --- it is that the
+target has the wrong dimensionality. What works is a \emph{structural} intervention: defining the
+action space. This is where the entire measurable gain lives.
+
+\para{``Choosing among acting, asking, refusing, deferring'' --- true, once the ontology is given.}
+0.598--0.721 four-way accuracy against 0.231 random and 0.285 best-single-action, with
+over-commitment down from 45--58\% to 9--25\%.
+
+\para{``Depending on the stakes'' --- false in the sense that matters.} Announced stakes move the
+criterion ($\Delta c = -0.44$, $p<0.001$) and not the discrimination ($\Delta d' = -0.11$, $p=0.53$);
+under a plain ask-affordance they make discrimination significantly worse; and the ambiguity
+$\times$ stakes interaction is exactly zero ($\beta = +0.010$, $p=0.97$). A system-prompt
+declaration of high stakes buys indiscriminate caution at a real price in needless refusals.
+
+\para{``Can be trained'' --- true in-distribution, unsupported out of it.} LoRA SFT lifts typed
+routing from 0.577 to 0.794 and drops over-commitment to 1.4\%. But it scores 0.470 out-of-source,
+below its own untrained prompted baseline, and a frozen probe on the base model already reaches
+0.779 with no training. Most of what SFT delivered was reading out a signal the representation
+already carried, and that read-out is partly source-specific. Since the practical value of an
+ask-policy lies entirely in generalising to requests unlike the ones it was tuned on, this is the
+weaker of the two readings.
+
+\subsection{Two mechanisms worth naming}
+
+\para{The gap is a read-out gap, at two levels.} At the behavioural level, a model's own property
+judgments routed through a fixed rule beat what it does when simply asked. At the representational
+level, a linear probe on the base model's frozen hidden state beats what the same model does when
+asked, by 20 points. Both say the same thing: the information needed to route is present and is not
+being used. That reframes the intervention target. Better uncertainty estimation adds signal that
+is already there; what is missing is the step from an internal state to a choice of action.
+
+\para{Deferral is mis-attributed, not mis-detected.} Models do not fail to notice that a request is
+blocked --- they fail to locate the blocker. On requests blocked by the model's own capability, they
+call the request indeterminate 37\% of the time, and 19\% of \defer items are routed to \refuse.
+The user-facing consequence is specific and bad: told ``that is impossible'' when the truth is
+``I cannot do that, but someone else can'', a user abandons a task that was achievable.
+
+\subsection{Limitations}
+\label{sec:threats}
+
+\para{The judge is a model.} Free-text labels come from \qwenjudge, not a human. Two checks put it
+in the substantial-agreement band ($\kappa = 0.781$ against an independent second judge over 3{,}768
+items, $\kappa = 0.750$ against 80 blind annotations), but the blind annotator was itself a model,
+so this is a third model agreeing rather than human validation. The judge also has a known
+\refuse/\defer confusion --- the same distinction the models find hard --- so the absolute levels in
+Experiment~1 are softer than its within-item contrasts.
+
+\para{Lexical shortcuts inflate absolute accuracy.} TF-IDF reaches 0.702 in-source
+(\secref{sec:baselines}). We report this rather than working around it, and restrict every headline
+claim to within-item contrasts between regimes, which the shortcut affects equally on both sides.
+
+\para{Missing data penalises \gptfive.} Its completions were truncated on 3--11\% of main-run items
+as reasoning tokens exhausted \texttt{max\_tokens}, and on 56--100\% of its stakes cells when the
+API budget ran out. Headline numbers score a missing response as an error --- the
+deployment-realistic reading --- and we report complete-case sensitivity per comparison. \gptfive is
+excluded from Experiment~3 entirely.
+
+\para{Stakes are announced, not experienced.} No dataset in our corpus encodes consequence-based
+stakes, so Experiment~3 manipulates \emph{stated} stakes in the system prompt and its item-level arm
+uses annotated \emph{importance}. A model that ignores announced stakes might still behave well
+under real ones. This is the single largest gap between what we measured and what the hypothesis
+claims.
+
+\para{One benchmark, one language, single-turn, one out-of-source check.} \carb is English,
+single-turn, and dominated by \coconot. The only out-of-source split, \clamber, is binary and
+therefore cannot test the deferral-type distinction the study is about; on it, every condition sits
+within $\pm0.09$ of always-\act. So the strongest claims here --- structure beats scalars,
+recognition beats behaviour --- are demonstrated \emph{within} one source family, and the one test
+of cross-source generalisation is both weak and negative. We measure whether to ask; \emph{what} to
+ask and \emph{when to stop asking} are out of scope.
+
+\para{Reproducibility, checked rather than asserted.} Every deterministic analysis was re-run from
+the stored raw outputs and produced byte-identical JSON, and every quantitative claim in this paper
+is restated as an executable assertion that re-checks it against the JSON that produced it (42
+assertions, non-zero exit if any number drifts). What is \emph{not} reproducible from scratch is the
+raw data: the API budget is spent and providers do not guarantee identical completions at
+temperature 0. We ship the response cache so the analysis pipeline can be re-run end to end.
+
+\subsection{Implications for building systems}
+
+Three recommendations follow directly. {\bf Do not ask a model for a confidence number and
+threshold it} --- give it the action space explicitly, with definitions and an ordered decision
+procedure, which is where the entire measurable gain lives. {\bf Do not expect a ``this is
+high-stakes'' system prompt to buy calibrated caution}; it buys indiscriminate caution, and under a
+plain ask-affordance it degrades discrimination outright. {\bf Benchmark any router against always
+asking}, because below a surprisingly low error cost that trivial policy is the better deal, and
+accuracy hides this completely.
+
+There is also a broader-impact reading of the utility result that cuts both ways. An assistant tuned
+to ask more will interrupt users more, and the free-text stakes condition shows how fast that
+degrades: withholding action on 45\% of perfectly answerable requests is its own failure mode, and
+one that falls hardest on users whose requests only \emph{look} unusual. Routing policies should be
+evaluated on contrast sets, not only on the items where asking is right.
